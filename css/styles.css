@@ -344,8 +344,12 @@ tbody tr:hover {
     font-family: 'DTL', sans-serif;
     font-weight: 600;
 }
-.location-toggle .toggle-label.highlight {
+.location-toggle .toggle-label.selected-harderwijk {
     color: var(--primary-color);
+    font-weight: 700;
+}
+.location-toggle .toggle-label.selected-lelystad {
+    color: var(--secondary-color);
     font-weight: 700;
 }
 .switch {
@@ -366,7 +370,7 @@ tbody tr:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: var(--primary-color);
     transition: .4s;
     border-radius: 9999px;
 }
@@ -382,7 +386,7 @@ tbody tr:hover {
     border-radius: 50%;
 }
 .switch input:checked + .slider {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
 }
 .switch input:checked + .slider:before {
     transform: translateX(1.25rem);
