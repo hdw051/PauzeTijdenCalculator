@@ -25,6 +25,8 @@ const outputTabContentContainer = document.getElementById('output-tab-content-co
 const singleOutputContainer = document.getElementById('single-output-container'); // Container for single result
 const resultHeader = document.getElementById('result-header');
 
+const appVersionElement = document.getElementById('app-version');
+
 const importFileInput = document.getElementById('import-file-input');
 const importFilmsButton = document.getElementById('import-films-button');
 const exportFilmsButton = document.getElementById('export-films-button');
@@ -36,6 +38,7 @@ const maxResultsInput = document.getElementById('max-results-input');
 let minGapRequired = 8; // Global minimum gap required between intermissions
 let defaultLocation = 'harderwijk';
 let maxResultOptions = 3;
+const APP_VERSION = '1.0.0';
 
 // Load saved value from localStorage
 const savedGap = localStorage.getItem('minGapRequired');
@@ -114,6 +117,9 @@ populateFilmManagementTable();
 // Set initial location based on saved default
 locationSelect.value = defaultLocation;
 updateCalculatorRows();
+if (appVersionElement) {
+    appVersionElement.textContent = APP_VERSION;
+}
 
 
 // --- Tab Management Functions ---
@@ -148,6 +154,9 @@ function showTab(tabName) {
         }
         if (maxResultsInput) {
             maxResultsInput.value = maxResultOptions;
+        }
+        if (appVersionElement) {
+            appVersionElement.textContent = APP_VERSION;
         }
     }
 }
