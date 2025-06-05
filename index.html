@@ -1,1 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Intermission Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { border-collapse: collapse; margin-bottom: 1em; }
+    th, td { border: 1px solid #ccc; padding: 0.5em; }
+    button { margin-right: 0.5em; }
+  </style>
+</head>
+<body>
+  <h1>Intermission Calculator</h1>
+  <table id="movies">
+    <thead>
+      <tr>
+        <th>Movie</th>
+        <th>Start Time (HH:MM)</th>
+        <th>Possible Intermissions (min)</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <button id="add">Add Movie</button>
+  <button id="calculate">Calculate Best Intermissions</button>
+  <pre id="output"></pre>
 
+  <script>
+    const tbody = document.querySelector('#movies tbody');
+    document.getElementById('add').addEventListener('click', () => addRow());
+    document.getElementById('calculate').addEventListener('click', calculate);
+
+    function addRow(name = '', start = '', options = '') {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="text" class="name" value="${name}"></td>
+        <td><input type="time" class="start" value="${start}" required></td>
+        <td><input type="text" class="options" placeholder="e.g. 45,60" value="${options}"></td>
+        <td><button onclick="this.parentNode.parentNode.remove()">Remove</button></td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    function parseMovies() {
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      return rows.map(row => {
+        return {
+          name: row.querySelector('.name').value || 'Movie',
+          start: row.querySelector('.start').value,
+          options: row.querySelector('.options').value
+            .split(',')
+            .map(s => parseInt(s.trim(), 10))
+            .filter(n => !isNaN(n))
+        };
+      }).filter(m => m.start && m.options.length);
+    }
+
+    function timeToMinutes(t) {
+      const [h, m] = t.split(':').map(Number);
+      return h * 60 + m;
+    }
+
+    function minutesToTime(min) {
+      const h = String(Math.floor(min / 60)).padStart(2, '0');
+      const m = String(min % 60).padStart(2, '0');
+      return `${h}:${m}`;
+    }
+
+    function calculate() {
+      const movies = parseMovies();
+      if (movies.length === 0) {
+        document.getElementById('output').textContent = 'No valid movies.';
+        return;
+      }
+
+      const optionSets = movies.map(m => {
+        const startMin = timeToMinutes(m.start);
+        return m.options.map(off => ({
+          movie: m.name,
+          offset: off,
+          absolute: startMin + off
+        }));
+      });
+
+      let best = null;
+      function search(combo, idx) {
+        if (idx === optionSets.length) {
+          const times = combo.map(c => c.absolute);
+          const range = Math.max(...times) - Math.min(...times);
+          const maxTime = Math.max(...times);
+          if (!best || range < best.range || (range === best.range && maxTime < best.maxTime)) {
+            best = { combo: combo.slice(), range, maxTime };
+          }
+          return;
+        }
+        for (const opt of optionSets[idx]) {
+          combo.push(opt);
+          search(combo, idx + 1);
+          combo.pop();
+        }
+      }
+      search([], 0);
+
+      if (best) {
+        const lines = best.combo.map(c => `${c.movie}: ${c.offset} min (${minutesToTime(c.absolute)})`);
+        lines.push(`Difference: ${best.range} min`);
+        document.getElementById('output').textContent = lines.join('\n');
+      } else {
+        document.getElementById('output').textContent = 'No combination found.';
+      }
+    }
+
+    // start with two empty rows for convenience
+    addRow();
+    addRow();
+  </script>
+</body>
+</html>
