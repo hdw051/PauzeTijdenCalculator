@@ -295,6 +295,11 @@ tbody tr:hover {
         padding: 0.5rem;
     }
 
+    /* Ensure cells marked as hidden remain hidden on mobile */
+    table.responsive-table td.hidden {
+        display: none;
+    }
+
     table.responsive-table td::before {
         content: attr(data-label);
         font-weight: 600;
