@@ -1,9 +1,11 @@
 /* Custom styles for the table and form elements */
 :root {
-    --primary-color: #D72121;
-    --primary-hover: #b31717;
-    --background-color: #FBF9F4;
-    --highlight-color: #EFE7D5;
+    /* Main color palette */
+    --primary-color: #C31B20;   /* red */
+    --primary-hover: #8E1014;   /* darker shade for hover */
+    --secondary-color: #B58A1A; /* accent gold */
+    --background-color: #F9F7F1; /* light background */
+    --highlight-color: #E5DDC4; /* subtle highlight */
     --text-color: #000000;
 }
 
@@ -17,7 +19,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(118deg, #f4eedd 1%, #f1ebda 36%, #e6e0d0), url('background.jpg');
+    background: linear-gradient(118deg, #F9F7F1 1%, #E5DDC4 36%, #F9F7F1), url('background.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -72,7 +74,7 @@ input[type="text"], select {
 }
 
 .secondary-button {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     color: white;
     font-weight: 700;
     padding: 0.75rem 1.5rem;
