@@ -68,6 +68,7 @@
 
 body {
     font-family: 'Brocha', sans-serif;
+    margin: 0;
     background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('../images/background.jpg');
     background-size: cover;
     background-repeat: no-repeat;
