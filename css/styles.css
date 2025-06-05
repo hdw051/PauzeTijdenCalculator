@@ -88,6 +88,10 @@ h1, h2, h3 {
     font-family: 'Daniel', sans-serif;
 }
 
+.movie-quote {
+    font-family: 'Daniel', sans-serif;
+}
+
 /* Table */
 table {
     border-collapse: collapse;
