@@ -69,7 +69,8 @@
 body {
     font-family: 'Brocha', sans-serif;
     margin: 0;
-    background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('../images/background.jpg');
+    /* Light gradient overlay on background image */
+    background: linear-gradient(rgba(249,247,241,0.95), rgba(229,221,196,0.95)), url('../images/background.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -273,6 +274,37 @@ tbody tr:nth-child(odd) {
 }
 tbody tr:hover {
     background-color: var(--highlight-color);
+}
+
+/* Calculator row styling */
+#movies-calculator {
+    border-collapse: separate;
+    border-spacing: 0 0.75rem; /* space between rows */
+}
+
+#movies-calculator tbody tr {
+    background-color: var(--background-color);
+    border: 1px solid #D1D5DB;
+    border-radius: 0.5rem;
+}
+
+#movies-calculator tbody td {
+    border: none;
+}
+
+#movies-calculator thead th {
+    border: none;
+}
+
+@media (max-width: 640px) {
+    #movies-calculator tr {
+        border: 1px solid #D1D5DB;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    #movies-calculator td {
+        padding: 0.5rem;
+    }
 }
 
 /* Responsive table styling */
