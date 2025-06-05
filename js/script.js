@@ -392,18 +392,18 @@ const htmlParts = [];
 const sortedCombo = [...solution.combo].sort((a, b) => a.absolute - b.absolute);
 
 sortedCombo.forEach((intermission, i) => {
-htmlParts.push(`
-<div class="bg-blue-50 p-3 rounded-md border border-blue-200">
-<p class="font-semibold text-gray-800">${intermission.movie}: ${intermission.offset} min (${minutesToTime(intermission.absolute)})</p>
+    htmlParts.push(`
+<div class="bg-highlight p-3 rounded-md border border-gray-300">
+<p class="font-semibold text-black">${intermission.movie}: ${intermission.offset} min (${minutesToTime(intermission.absolute)})</p>
 ${i < sortedCombo.length - 1 ?
-`<p class="text-gray-600 text-sm pl-4">  &rarr; ${sortedCombo[i+1].absolute - intermission.absolute} min pauze tot de volgende</p>` : ''
+`<p class="text-black text-sm pl-4">  &rarr; ${sortedCombo[i+1].absolute - intermission.absolute} min pauze tot de volgende</p>` : ''
 }
 </div>
 `);
 });
 
-htmlParts.push(`
-<div class="bg-gray-200 p-4 rounded-lg font-semibold text-gray-800">
+    htmlParts.push(`
+<div class="bg-background p-4 rounded-lg font-semibold text-black">
 <p>Totaal verschil tussen eerste en laatste pauzemoment: ${solution.range} min</p>
 ${solution.minGap !== Infinity && solution.minGap !== 0 && sortedCombo.length > 1 ?
 `<p>Minimale kloof tussen pauzes: ${solution.minGap} min</p>` : ''
