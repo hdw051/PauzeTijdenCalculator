@@ -40,7 +40,7 @@
                         <tr>
                             <th class="text-left text-sm font-semibold text-black uppercase tracking-wider">Film</th>
                             <th class="text-left text-sm font-semibold text-black uppercase tracking-wider">Starttijd (HH:MM)</th>
-                            <th class="text-left text-sm font-semibold text-black uppercase tracking-wider">Mogelijke Pauzes (min)</th>
+                            <th class="text-left text-sm font-semibold text-black uppercase tracking-wider hidden sm:table-cell">Mogelijke Pauzes (min)</th>
                             <th class="text-center text-sm font-semibold text-black uppercase tracking-wider">Drukte</th>
                         </tr>
                     </thead>
@@ -114,7 +114,8 @@
                 <label for="min-gap-input" class="block text-sm font-bold mb-2 text-black">Minimale pauzekloof (minuten):</label>
                 <input type="number" id="min-gap-input" min="0" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
             </div>
-            <p class="text-black text-sm">De ingestelde waarde wordt lokaal opgeslagen.</p>
+            <p class="text-black text-sm mb-2">De ingestelde waarde wordt lokaal opgeslagen.</p>
+            <p class="text-black text-sm">Deze pauzekloof bepaalt hoeveel minuten er minimaal tussen twee drukke voorstellingen moeten zitten. Verander de waarde en de planner past zijn berekening direct aan.</p>
         </div>
 
         <!-- Explanation Tab Content -->
