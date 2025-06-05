@@ -69,9 +69,21 @@ function updateLabelHighlight() {
     }
 }
 
+function updateTheme() {
+    const root = document.documentElement;
+    if (locationSelect.value === 'lelystad') {
+        root.style.setProperty('--primary-color', '#B58A1A');
+        root.style.setProperty('--primary-hover', '#836512');
+    } else {
+        root.style.setProperty('--primary-color', '#C31B20');
+        root.style.setProperty('--primary-hover', '#8E1014');
+    }
+}
+
 function updateLocationFromToggle() {
     locationSelect.value = locationToggleInput.checked ? 'lelystad' : 'harderwijk';
     updateLabelHighlight();
+    updateTheme();
     updateCalculatorRows();
 }
 
@@ -109,6 +121,7 @@ if (defaultLocationSelect) {
         locationSelect.value = defaultLocation;
         locationToggleInput.checked = defaultLocation === 'lelystad';
         updateLabelHighlight();
+        updateTheme();
         updateCalculatorRows();
     });
 }
@@ -160,6 +173,7 @@ if (locationToggleInput) {
     locationToggleInput.checked = defaultLocation === 'lelystad';
     updateLabelHighlight();
 }
+updateTheme();
 updateCalculatorRows();
 if (appVersionElement) {
     appVersionElement.textContent = APP_VERSION;
@@ -378,6 +392,7 @@ const minutes = ['00', '15', '30', '45'];
 for (let i = 0; i < rowCount; i++) {
 const tr = document.createElement('tr');
 tr.innerHTML = `
+<td data-label="Zaal" class="text-center"><span class="hall-badge">${i + 1}</span></td>
 <td data-label="Film">
 <select class="movie-select" onchange="onMovieSelectChange(this)">
 <option value="">-- Kies film --</option>
@@ -399,7 +414,7 @@ ${minutes.map(m => `<option value="${m}">${m}</option>`).join('')}
 <td data-label="Drukte" class="text-center">
 <label class="relative inline-flex items-center cursor-pointer">
 <input type="checkbox" class="busy-checkbox sr-only peer">
-<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
 </label>
 </td>
 `;
@@ -461,7 +476,7 @@ optionsInput.value = '';
 */
 function parseMovies() {
 const rows = Array.from(calculatorTbody.querySelectorAll('tr'));
-return rows.map(row => {
+return rows.map((row, idx) => {
 const nameSelect = row.querySelector('.movie-select');
 const hourSelect = row.querySelector('.hour-select');
 const minuteSelect = row.querySelector('.minute-select');
@@ -471,13 +486,14 @@ const busyCheckbox = row.querySelector('.busy-checkbox'); // Get busy checkbox
 const startTime = (hourSelect && minuteSelect) ? `${hourSelect.value}:${minuteSelect.value}` : '';
 
 return {
+hall: idx + 1,
 name: nameSelect ? nameSelect.value || 'Onbekende Film' : 'Onbekende Film',
 start: startTime,
 options: optionsInput ? optionsInput.value
-.split(',')
-.map(s => parseInt(s.trim(), 10))
-.filter(n => !isNaN(n)) : [],
-isBusy: busyCheckbox ? busyCheckbox.checked : false // Add isBusy property
+ .split(',')
+ .map(s => parseInt(s.trim(), 10))
+ .filter(n => !isNaN(n)) : [],
+isBusy: busyCheckbox ? busyCheckbox.checked : false
 };
 }).filter(m => m.start && m.options.length); // Only include valid entries
 }
@@ -517,6 +533,8 @@ function generateResultHtml(solution) {
     sortedCombo.forEach((intermission, i) => {
         htmlParts.push(`
         <div class="movie-block">
+            <img src="images/icons/film.svg" class="icon" alt="film">
+            <span class="hall-badge">${intermission.hall}</span>
             <p class="font-semibold text-black">${intermission.movie}: ${intermission.offset} min (${minutesToTime(intermission.absolute)})</p>
         </div>
         `);
@@ -525,6 +543,7 @@ function generateResultHtml(solution) {
             const gap = sortedCombo[i+1].absolute - intermission.absolute;
             htmlParts.push(`
             <div class="gap-block">
+                <img src="images/icons/clock.svg" class="icon" alt="tijd">
                 <p class="text-sm text-black">${gap} min tot volgende</p>
             </div>
             `);
@@ -646,9 +665,10 @@ const optionSets = movies.map(m => {
 const startMin = timeToMinutes(m.start);
 return m.options.map(off => ({
 movie: m.name,
+hall: m.hall,
 offset: off,
 absolute: startMin + off,
-isBusy: m.isBusy // Propagate the isBusy flag to each option
+isBusy: m.isBusy
 }));
 }).filter(set => set.length > 0); // Filter out movies without valid options
 
