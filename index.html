@@ -10,9 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8 bg-[#FBF9F4]">
     <div class="main-container">
-        <h1 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-6">Intermission Calculator</h1>
+        <h1 class="text-3xl sm:text-4xl font-bold text-center text-black mb-6">Intermission Calculator</h1>
 
         <!-- Tab Navigation -->
         <div class="flex border-b border-gray-200 mb-6 rounded-t-xl overflow-hidden">
@@ -23,8 +23,8 @@
         <!-- Calculator Tab Content -->
         <div id="content-calculator" class="tab-content">
             <div class="mb-4">
-                <label for="location-select" class="block text-gray-700 text-sm font-bold mb-2">Kies Locatie:</label>
-                <select id="location-select" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label for="location-select" class="block text-sm font-bold mb-2 text-black">Kies Locatie:</label>
+                <select id="location-select" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
                     <option value="none">-- Selecteer Locatie --</option>
                     <option value="harderwijk">Harderwijk (5 Zalen)</option>
                     <option value="lelystad">Lelystad (6 Zalen)</option>
@@ -32,13 +32,13 @@
             </div>
 
             <div class="overflow-x-auto mb-6">
-                <table id="movies-calculator" class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100">
+                <table id="movies-calculator" class="min-w-full bg-highlight rounded-lg shadow-md overflow-hidden">
+                    <thead class="bg-background">
                         <tr>
-                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Film</th>
-                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Starttijd (HH:MM)</th>
-                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Mogelijke Pauzes (min)</th>
-                            <th class="text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">Drukte</th>
+                            <th class="text-left text-sm font-semibold text-black uppercase tracking-wider">Film</th>
+                            <th class="text-left text-sm font-semibold text-black uppercase tracking-wider">Starttijd (HH:MM)</th>
+                            <th class="text-left text-sm font-semibold text-black uppercase tracking-wider">Mogelijke Pauzes (min)</th>
+                            <th class="text-center text-sm font-semibold text-black uppercase tracking-wider">Drukte</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,18 +53,18 @@
                 </button>
             </div>
 
-            <h2 class="text-xl font-semibold text-gray-700 mb-3">Resultaat:</h2>
+            <h2 class="text-xl font-semibold text-black mb-3">Resultaat:</h2>
             <!-- Output container for results, either single or multiple tabs -->
             <div id="output-wrapper" class="min-h-[80px] space-y-3">
                  <div id="output-tabs" class="hidden">
                     <div class="flex border-b border-gray-200 mb-4">
                         <!-- Result tab buttons will be injected here -->
                     </div>
-                    <div id="output-tab-content-container" class="bg-gray-100 p-4 rounded-lg shadow-inner text-gray-800 overflow-auto">
+                    <div id="output-tab-content-container" class="bg-background p-4 rounded-lg shadow-inner text-black overflow-auto">
                         <!-- Result tab content will be injected here -->
                     </div>
                 </div>
-                <div id="single-output-container" class="min-h-[80px] space-y-3 bg-gray-100 p-4 rounded-lg shadow-inner text-gray-800 overflow-auto">
+                <div id="single-output-container" class="min-h-[80px] space-y-3 bg-background p-4 rounded-lg shadow-inner text-black overflow-auto">
                     <!-- Single result content will be injected here -->
                 </div>
             </div>
@@ -72,14 +72,14 @@
 
         <!-- Film Management Tab Content -->
         <div id="content-film-management" class="tab-content hidden">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Filmbeheer</h2>
+            <h2 class="text-2xl font-bold text-black mb-4">Filmbeheer</h2>
             <div class="overflow-x-auto mb-6">
-                <table id="movies-manager" class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100">
+                <table id="movies-manager" class="min-w-full bg-highlight rounded-lg shadow-md overflow-hidden">
+                    <thead class="bg-background">
                         <tr>
-                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Film Naam</th>
-                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Pauze Opties (min)</th>
-                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"></th>
+                            <th class="text-left text-sm font-semibold text-black uppercase tracking-wider">Film Naam</th>
+                            <th class="text-left text-sm font-semibold text-black uppercase tracking-wider">Pauze Opties (min)</th>
+                            <th class="text-left text-sm font-semibold text-black uppercase tracking-wider"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,15 +91,15 @@
                 <button id="add-film-manager" class="primary-button w-full sm:w-auto">Film Toevoegen</button>
                 <div class="flex gap-4 w-full sm:w-auto">
                     <input type="file" id="import-file-input" accept=".json" class="hidden" onchange="importFilms(event)">
-                    <button id="import-films-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:scale-105 w-full sm:w-auto">
+                    <button id="import-films-button" class="primary-button transform transition duration-300 ease-in-out hover:scale-105 w-full sm:w-auto">
                         Films Importeren
                     </button>
-                    <button id="export-films-button" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:scale-105 w-full sm:w-auto">
+                    <button id="export-films-button" class="primary-button transform transition duration-300 ease-in-out hover:scale-105 w-full sm:w-auto">
                         Films Exporteren
                     </button>
                 </div>
             </div>
-             <p id="film-management-message" class="mt-4 text-sm text-gray-600"></p>
+             <p id="film-management-message" class="mt-4 text-sm text-black"></p>
         </div>
     </div>
 
