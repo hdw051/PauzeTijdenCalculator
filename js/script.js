@@ -26,7 +26,24 @@ const importFilmsButton = document.getElementById('import-films-button');
 const exportFilmsButton = document.getElementById('export-films-button');
 const filmManagementMessage = document.getElementById('film-management-message');
 
-const MIN_GAP_REQUIRED = 8; // Global minimum gap required between intermissions
+const minGapInput = document.getElementById('min-gap-input');
+let minGapRequired = 8; // Global minimum gap required between intermissions
+
+// Load saved value from localStorage
+const savedGap = localStorage.getItem('minGapRequired');
+if (savedGap !== null) {
+    const parsedGap = parseInt(savedGap, 10);
+    if (!isNaN(parsedGap)) {
+        minGapRequired = parsedGap;
+    }
+}
+if (minGapInput) {
+    minGapInput.value = minGapRequired;
+    minGapInput.addEventListener('change', () => {
+        minGapRequired = parseInt(minGapInput.value, 10) || 0;
+        localStorage.setItem('minGapRequired', minGapRequired);
+    });
+}
 
 // --- Event Listeners ---
 tabCalculatorBtn.addEventListener('click', () => showTab('calculator'));
@@ -465,7 +482,7 @@ contentPane.classList.add('hidden');
 
 /**
 * Calculates the widest possible intermissions for the entered movies,
-* prioritizing solutions where all gaps are at least MIN_GAP_REQUIRED,
+ * prioritizing solutions where all gaps are at least the chosen minimum gap,
 * then maximizing overall range, then maximizing the minimum gap
 * between intermediate intermissions, and enforcing "Drukte" constraints.
 */
@@ -521,19 +538,19 @@ if (times.length === 0) return; // Skip if no times are available
 const sortedCombo = [...combo].sort((a, b) => a.absolute - b.absolute); // Sort the combo to check gaps
 
 // --- Hard "Drukte" constraint check (minimaal 8 minuten tussen busy films) ---
-// If any film is marked as busy, and the gap to its neighbor is less than MIN_GAP_REQUIRED,
+// If any film is marked as busy, and the gap to its neighbor is less than minGapRequired,
 // this combination is invalid and discarded.
 for (let i = 0; i < sortedCombo.length - 1; i++) {
 const current = sortedCombo[i];
 const next = sortedCombo[i + 1];
 const gap = next.absolute - current.absolute;
 
-if (gap < MIN_GAP_REQUIRED && (current.isBusy || next.isBusy)) {
+if (gap < minGapRequired && (current.isBusy || next.isBusy)) {
 return; // Discard this combination immediately if busy rule is violated
 }
 }
 
-// --- Evaluate this combination for range, minGap, and global MIN_GAP_REQUIRED ---
+// --- Evaluate this combination for range, minGap, and global minGapRequired ---
 const currentRange = sortedCombo[sortedCombo.length - 1].absolute - sortedCombo[0].absolute;
 const currentMaxTime = sortedCombo[sortedCombo.length - 1].absolute;
 
@@ -545,7 +562,7 @@ const gap = sortedCombo[i+1].absolute - sortedCombo[i].absolute;
 if (gap < currentMinGap) {
 currentMinGap = gap;
 }
-if (gap < MIN_GAP_REQUIRED) {
+if (gap < minGapRequired) {
 meetsAllMinGaps = false; // Fails global 8-min rule
 }
 }
@@ -578,7 +595,7 @@ search([], 0);
 let bestPerfectSolution = null;
 const fallbackSolutions = []; // For top 3 if no perfect solution is found
 
-// 1. First, try to find the absolute best "perfect" solution (all gaps >= MIN_GAP_REQUIRED)
+// 1. First, try to find the absolute best "perfect" solution (all gaps >= minGapRequired)
 const perfectSolutions = allCandidateSolutions.filter(s => s.meetsAllMinGaps);
 
 if (perfectSolutions.length > 0) {
