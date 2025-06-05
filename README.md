@@ -1,18 +1,18 @@
-# Intermission Calculator
+# PauzePlanner
 
-This small web tool calculates the best break schedule for movie showings.
+Dit kleine webhulpmiddel berekent het beste pauzeschema voor filmvoorstellingen.
 
-## Usage
+## Gebruik
 
-1. Open `index.html` in a browser. Using a local HTTP server is recommended:
+1. Open `index.html` in een browser. Gebruik bij voorkeur een lokale HTTP-server:
    ```bash
    python3 -m http.server
    ```
-   then navigate to `http://localhost:8000`.
-2. Choose a location to load the correct number of theaters.
-3. Select films and start times, mark busy films and click **Breedste Pauzes Berekenen**.
-4. Manage film options in the **Filmbeheer** tab. You can import or export films as JSON.
+   en ga vervolgens naar `http://localhost:8000`.
+2. Kies een locatie om het juiste aantal zalen te laden.
+3. Selecteer films en starttijden, markeer drukke films en klik op **Breedste Pauzes Berekenen**.
+4. Beheer filmopties in het tabblad **Filmbeheer**. Je kunt films importeren of exporteren als JSON.
 
-## Development
+## Ontwikkeling
 
-The app uses Tailwind CDN and plain JavaScript. Custom styles are in `styles.css` and behaviour in `script.js`.
+De app gebruikt Tailwind CDN en gewone JavaScript. Aangepaste stijlen staan in `styles.css` en het gedrag in `script.js`.
