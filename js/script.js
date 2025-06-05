@@ -36,6 +36,11 @@ const importFilmsButton = document.getElementById('import-films-button');
 const exportFilmsButton = document.getElementById('export-films-button');
 const filmManagementMessage = document.getElementById('film-management-message');
 
+// --- Helper ---
+function sortFilmData() {
+    filmData.sort((a, b) => a.name.localeCompare(b.name));
+}
+
 const minGapInput = document.getElementById('min-gap-input');
 const defaultLocationSelect = document.getElementById('default-location-select');
 const maxResultsInput = document.getElementById('max-results-input');
@@ -149,6 +154,9 @@ filmData.push({ name: 'Inception', options: [53, 69, 88] });
 filmData.push({ name: 'The Matrix', options: [48, 66] });
 filmData.push({ name: 'The Lord of the Rings', options: [60, 74, 90] });
 
+// Ensure alphabetical order for display
+sortFilmData();
+
 
 // Set initial tab to calculator
 showTab('calculator');
@@ -248,10 +256,11 @@ filmManagementMessage.textContent = ''; // Clear message on add
 * Populates the film management table from the filmData array.
 */
 function populateFilmManagementTable() {
-filmManagerTbody.innerHTML = ''; // Clear existing rows
-filmData.forEach((film) => {
-addFilmManagementRow(film.name, film.options.join(','));
-});
+    sortFilmData();
+    filmManagerTbody.innerHTML = '';
+    filmData.forEach((film) => {
+        addFilmManagementRow(film.name, film.options.join(','));
+    });
 }
 
 /**
@@ -260,8 +269,8 @@ addFilmManagementRow(film.name, film.options.join(','));
 * It reconstructs the filmData array directly from the DOM to ensure accuracy.
 */
 function saveFilmData() {
-const rows = Array.from(filmManagerTbody.querySelectorAll('tr'));
-filmData = rows.map(row => {
+    const rows = Array.from(filmManagerTbody.querySelectorAll('tr'));
+    filmData = rows.map(row => {
 const nameInput = row.querySelector('.film-name-input');
 const optionsInput = row.querySelector('.film-options-input');
 return {
@@ -271,12 +280,15 @@ options: optionsInput ? optionsInput.value
 .map(s => parseInt(s.trim(), 10))
 .filter(n => !isNaN(n)) : []
 };
-}).filter(f => f.name && f.options.length > 0); // Only keep valid films with name and at least one option
+    }).filter(f => f.name && f.options.length > 0); // Only keep valid films with name and at least one option
 
-// Re-populate dropdowns in calculator tab if needed (e.g., if on that tab)
-if (!contentCalculator.classList.contains('hidden')) {
-populateMovieDropdowns();
-}
+    sortFilmData();
+    populateFilmManagementTable();
+
+    // Re-populate dropdowns in calculator tab if needed (e.g., if on that tab)
+    if (!contentCalculator.classList.contains('hidden')) {
+        populateMovieDropdowns();
+    }
 }
 
 /**
@@ -333,10 +345,11 @@ try {
 const importedData = JSON.parse(e.target.result);
 // Basic validation to ensure imported data structure is an array of objects
 if (Array.isArray(importedData) && importedData.every(item => typeof item === 'object' && item.name && Array.isArray(item.options))) {
-filmData = importedData;
-populateFilmManagementTable(); // Refresh the film management table
-populateMovieDropdowns(); // Refresh calculator dropdowns
-filmManagementMessage.textContent = 'Films succesvol geïmporteerd!';
+            filmData = importedData;
+            sortFilmData();
+            populateFilmManagementTable();
+            populateMovieDropdowns();
+            filmManagementMessage.textContent = 'Films succesvol geïmporteerd!';
 } else {
 filmManagementMessage.textContent = 'Ongeldig JSON-formaat voor films. Zorg ervoor dat het een array van objecten is met "name" en "options" velden.';
 }
