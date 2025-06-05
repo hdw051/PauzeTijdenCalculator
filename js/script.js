@@ -16,6 +16,9 @@ const calculatorTbody = document.querySelector('#movies-calculator tbody');
 const filmManagerTbody = document.querySelector('#movies-manager tbody');
 
 const locationSelect = document.getElementById('location-select');
+const locationToggleInput = document.getElementById('location-toggle-input');
+const labelHarderwijk = document.getElementById('label-harderwijk');
+const labelLelystad = document.getElementById('label-lelystad');
 const calculateBtn = document.getElementById('calculate');
 const addFilmManagerBtn = document.getElementById('add-film-manager');
 const outputWrapper = document.getElementById('output-wrapper'); // Main output wrapper
@@ -55,6 +58,22 @@ function applySlideIn(el) {
     }
 }
 
+function updateLabelHighlight() {
+    if (locationToggleInput.checked) {
+        labelHarderwijk.classList.add('highlight');
+        labelLelystad.classList.remove('highlight');
+    } else {
+        labelHarderwijk.classList.remove('highlight');
+        labelLelystad.classList.add('highlight');
+    }
+}
+
+function updateLocationFromToggle() {
+    locationSelect.value = locationToggleInput.checked ? 'lelystad' : 'harderwijk';
+    updateLabelHighlight();
+    updateCalculatorRows();
+}
+
 // Load saved value from localStorage
 const savedGap = localStorage.getItem('minGapRequired');
 if (savedGap !== null) {
@@ -87,6 +106,8 @@ if (defaultLocationSelect) {
         defaultLocation = defaultLocationSelect.value;
         localStorage.setItem('defaultLocation', defaultLocation);
         locationSelect.value = defaultLocation;
+        locationToggleInput.checked = defaultLocation === 'lelystad';
+        updateLabelHighlight();
         updateCalculatorRows();
     });
 }
@@ -105,6 +126,9 @@ tabFilmManagerBtn.addEventListener('click', () => showTab('film-management'));
 tabExplanationBtn.addEventListener('click', () => showTab('explanation'));
 tabSettingsBtn.addEventListener("click", () => showTab("settings"));
 locationSelect.addEventListener('change', updateCalculatorRows);
+if (locationToggleInput) {
+    locationToggleInput.addEventListener('change', updateLocationFromToggle);
+}
 calculateBtn.addEventListener('click', calculate);
 addFilmManagerBtn.addEventListener('click', () => addFilmManagementRow());
 importFilmsButton.addEventListener('click', () => importFileInput.click()); // Trigger hidden file input
@@ -131,6 +155,10 @@ showTab('calculator');
 populateFilmManagementTable();
 // Set initial location based on saved default
 locationSelect.value = defaultLocation;
+if (locationToggleInput) {
+    locationToggleInput.checked = defaultLocation === 'lelystad';
+    updateLabelHighlight();
+}
 updateCalculatorRows();
 if (appVersionElement) {
     appVersionElement.textContent = APP_VERSION;

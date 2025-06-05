@@ -28,11 +28,18 @@
         <!-- Calculator Tab Content -->
         <div id="content-calculator" class="tab-content">
             <div class="mb-4">
-                <label for="location-select" class="block text-sm font-bold mb-2 text-black">Kies Locatie:</label>
-                <select id="location-select" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="none">-- Selecteer Locatie --</option>
-                    <option value="harderwijk">Harderwijk (5 zalen)</option>
-                    <option value="lelystad">Lelystad (6 zalen)</option>
+                <label class="block text-sm font-bold mb-2 text-black">Kies Locatie:</label>
+                <div id="location-toggle" class="location-toggle flex items-center gap-2">
+                    <span id="label-harderwijk" class="toggle-label">Harderwijk</span>
+                    <label class="switch">
+                        <input type="checkbox" id="location-toggle-input">
+                        <span class="slider"></span>
+                    </label>
+                    <span id="label-lelystad" class="toggle-label">Lelystad</span>
+                </div>
+                <select id="location-select" class="hidden">
+                    <option value="harderwijk">Harderwijk</option>
+                    <option value="lelystad">Lelystad</option>
                 </select>
             </div>
 
