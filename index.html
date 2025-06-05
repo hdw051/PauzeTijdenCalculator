@@ -1,120 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Intermission Calculator</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    table { border-collapse: collapse; margin-bottom: 1em; }
-    th, td { border: 1px solid #ccc; padding: 0.5em; }
-    button { margin-right: 0.5em; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermission Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the table and form elements */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid theme('colors.gray.300');
+            padding: 0.75rem;
+        }
+        input[type="text"], select {
+            @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+        }
+        /* Style for the remove button */
+        .remove-button {
+            @apply bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200 ease-in-out;
+        }
+        /* Style for primary action buttons */
+        .primary-button {
+            @apply bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:scale-105;
+        }
+        /* Style for secondary action buttons */
+        .secondary-button {
+            @apply bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:scale-105;
+        }
+        /* Style for tab buttons */
+        .tab-button {
+            @apply px-4 py-3 text-base font-medium text-center rounded-t-xl border-b-2;
+        }
+        .tab-button.active {
+            @apply text-blue-700 border-blue-700 bg-white;
+        }
+        .tab-button:not(.active) {
+            @apply text-gray-600 hover:text-blue-600 hover:border-blue-300 border-transparent bg-gray-50;
+        }
+        /* Style for the main container */
+        .main-container {
+            @apply bg-white p-6 sm:p-8 md:p-10 rounded-xl shadow-2xl w-full max-w-4xl;
+        }
+
+        /* Styles for result tabs */
+        .result-tab-button {
+            @apply px-4 py-2 text-sm font-medium text-center border-b-2;
+        }
+        .result-tab-button.active {
+            @apply text-blue-600 border-blue-600;
+        }
+        .result-tab-button:not(.active) {
+            @apply text-gray-500 hover:text-gray-700 hover:border-gray-300 border-transparent;
+        }
+        .result-tab-content {
+            @apply p-4 bg-gray-50 border border-gray-200 rounded-b-lg;
+        }
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body>
-  <h1>Intermission Calculator</h1>
-  <table id="movies">
-    <thead>
-      <tr>
-        <th>Movie</th>
-        <th>Start Time (HH:MM)</th>
-        <th>Possible Intermissions (min)</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-  <button id="add">Add Movie</button>
-  <button id="calculate">Calculate Widest Intermissions</button>
-  <pre id="output"></pre>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
+    <div class="main-container">
+        <h1 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-6">Intermission Calculator</h1>
 
-  <script>
-    const tbody = document.querySelector('#movies tbody');
-    document.getElementById('add').addEventListener('click', () => addRow());
-    document.getElementById('calculate').addEventListener('click', calculate);
+        <!-- Tab Navigation -->
+        <div class="flex border-b border-gray-200 mb-6 rounded-t-xl overflow-hidden">
+            <button id="tab-calculator" class="tab-button active flex-1">Calculator</button>
+            <button id="tab-film-management" class="tab-button flex-1">Filmbeheer</button>
+        </div>
 
-    function addRow(name = '', start = '', options = '') {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><input type="text" class="name" value="${name}"></td>
-        <td><input type="time" class="start" value="${start}" required></td>
-        <td><input type="text" class="options" placeholder="e.g. 45,60" value="${options}"></td>
-        <td><button onclick="this.parentNode.parentNode.remove()">Remove</button></td>
-      `;
-      tbody.appendChild(tr);
-    }
+        <!-- Calculator Tab Content -->
+        <div id="content-calculator" class="tab-content">
+            <div class="mb-4">
+                <label for="location-select" class="block text-gray-700 text-sm font-bold mb-2">Kies Locatie:</label>
+                <select id="location-select" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="none">-- Selecteer Locatie --</option>
+                    <option value="harderwijk">Harderwijk (5 Zalen)</option>
+                    <option value="lelystad">Lelystad (6 Zalen)</option>
+                </select>
+            </div>
 
-    function parseMovies() {
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-      return rows.map(row => {
-        return {
-          name: row.querySelector('.name').value || 'Movie',
-          start: row.querySelector('.start').value,
-          options: row.querySelector('.options').value
-            .split(',')
-            .map(s => parseInt(s.trim(), 10))
-            .filter(n => !isNaN(n))
-        };
-      }).filter(m => m.start && m.options.length);
-    }
+            <div class="overflow-x-auto mb-6">
+                <table id="movies-calculator" class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Film</th>
+                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Starttijd (HH:MM)</th>
+                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Mogelijke Pauzes (min)</th>
+                            <th class="text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">Drukte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Movie rows will be added here dynamically by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
 
-    function timeToMinutes(t) {
-      const [h, m] = t.split(':').map(Number);
-      return h * 60 + m;
-    }
+            <div class="flex flex-col sm:flex-row justify-center sm:justify-start gap-4 mb-6">
+                <button id="calculate" class="secondary-button w-full sm:w-auto">
+                    Breedste Pauzes Berekenen
+                </button>
+                <button id="generate-suggestions" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:scale-105 w-full sm:w-auto flex items-center justify-center gap-2">
+                    ✨ Pauze Activiteiten Voorstellen
+                </button>
+            </div>
 
-    function minutesToTime(min) {
-      const h = String(Math.floor(min / 60)).padStart(2, '0');
-      const m = String(min % 60).padStart(2, '0');
-      return `${h}:${m}`;
-    }
+            <h2 class="text-xl font-semibold text-gray-700 mb-3">Resultaat:</h2>
+            <!-- Output container for results, either single or multiple tabs -->
+            <div id="output-wrapper" class="min-h-[80px] space-y-3">
+                 <div id="output-tabs" class="hidden">
+                    <div class="flex border-b border-gray-200 mb-4">
+                        <!-- Result tab buttons will be injected here -->
+                    </div>
+                    <div id="output-tab-content-container" class="bg-gray-100 p-4 rounded-lg shadow-inner text-gray-800 overflow-auto">
+                        <!-- Result tab content will be injected here -->
+                    </div>
+                </div>
+                <div id="single-output-container" class="min-h-[80px] space-y-3 bg-gray-100 p-4 rounded-lg shadow-inner text-gray-800 overflow-auto">
+                    <!-- Single result content will be injected here -->
+                </div>
+            </div>
 
-    function calculate() {
-      const movies = parseMovies();
-      if (movies.length === 0) {
-        document.getElementById('output').textContent = 'No valid movies.';
-        return;
-      }
+            <div id="ai-suggestions-container" class="mt-6 hidden">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">AI Suggesties voor Pauze Activiteiten:</h3>
+                <div id="ai-suggestions-output" class="bg-blue-50 p-4 rounded-lg shadow-inner text-gray-800 min-h-[50px] flex items-center justify-center">
+                    <div class="spinner hidden"></div>
+                    <p id="ai-suggestions-text" class="text-gray-600 text-center">Klik op "✨ Pauze Activiteiten Voorstellen" om suggesties te genereren.</p>
+                </div>
+            </div>
+        </div>
 
-      const optionSets = movies.map(m => {
-        const startMin = timeToMinutes(m.start);
-        return m.options.map(off => ({
-          movie: m.name,
-          offset: off,
-          absolute: startMin + off
-        }));
-      });
+        <!-- Film Management Tab Content -->
+        <div id="content-film-management" class="tab-content hidden">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Filmbeheer</h2>
+            <div class="overflow-x-auto mb-6">
+                <table id="movies-manager" class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Film Naam</th>
+                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Pauze Opties (min)</th>
+                            <th class="text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Film management rows will be added here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6">
+                <button id="add-film-manager" class="primary-button w-full sm:w-auto">Film Toevoegen</button>
+                <div class="flex gap-4 w-full sm:w-auto">
+                    <input type="file" id="import-file-input" accept=".json" class="hidden" onchange="importFilms(event)">
+                    <button id="import-films-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:scale-105 w-full sm:w-auto">
+                        Films Importeren
+                    </button>
+                    <button id="export-films-button" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:scale-105 w-full sm:w-auto">
+                        Films Exporteren
+                    </button>
+                </div>
+            </div>
+             <p id="film-management-message" class="mt-4 text-sm text-gray-600"></p>
+        </div>
+    </div>
 
-      let best = null;
-      function search(combo, idx) {
-        if (idx === optionSets.length) {
-          const times = combo.map(c => c.absolute);
-          const range = Math.max(...times) - Math.min(...times);
-          const maxTime = Math.max(...times);
-          if (!best || range > best.range || (range === best.range && maxTime < best.maxTime)) {
-            best = { combo: combo.slice(), range, maxTime };
-          }
-          return;
+    <script>
+        // --- Global Variables ---
+        // Stores all film data for management and use in calculator
+        let filmData = [];
+        let currentBestSolution = null; // Stores the active solution for AI suggestions
+
+        // --- DOM Elements ---
+        const tabCalculatorBtn = document.getElementById('tab-calculator');
+        const tabFilmManagerBtn = document.getElementById('tab-film-management');
+        const contentCalculator = document.getElementById('content-calculator');
+        const contentFilmManager = document.getElementById('content-film-management');
+
+        const calculatorTbody = document.querySelector('#movies-calculator tbody');
+        const filmManagerTbody = document.querySelector('#movies-manager tbody');
+
+        const locationSelect = document.getElementById('location-select');
+        const calculateBtn = document.getElementById('calculate');
+        const generateSuggestionsBtn = document.getElementById('generate-suggestions'); // New AI button
+        const addFilmManagerBtn = document.getElementById('add-film-manager');
+        const outputWrapper = document.getElementById('output-wrapper'); // Main output wrapper
+        const outputTabsContainer = document.getElementById('output-tabs'); // Container for tabs
+        const outputTabButtonsDiv = outputTabsContainer.querySelector('.flex'); // Div for tab buttons
+        const outputTabContentContainer = document.getElementById('output-tab-content-container'); // Container for tab content
+        const singleOutputContainer = document.getElementById('single-output-container'); // Container for single result
+
+        const aiSuggestionsContainer = document.getElementById('ai-suggestions-container');
+        const aiSuggestionsOutput = document.getElementById('ai-suggestions-output');
+        const aiSuggestionsText = document.getElementById('ai-suggestions-text');
+        const aiSuggestionsSpinner = aiSuggestionsOutput.querySelector('.spinner');
+
+
+        const importFileInput = document.getElementById('import-file-input');
+        const importFilmsButton = document.getElementById('import-films-button');
+        const exportFilmsButton = document.getElementById('export-films-button');
+        const filmManagementMessage = document.getElementById('film-management-message');
+
+        const MIN_GAP_REQUIRED = 8; // Global minimum gap required between intermissions
+
+        // --- Event Listeners ---
+        tabCalculatorBtn.addEventListener('click', () => showTab('calculator'));
+        tabFilmManagerBtn.addEventListener('click', () => showTab('film-management'));
+        locationSelect.addEventListener('change', updateCalculatorRows);
+        calculateBtn.addEventListener('click', calculate);
+        generateSuggestionsBtn.addEventListener('click', generateBreakSuggestions); // New event listener for AI button
+        addFilmManagerBtn.addEventListener('click', () => addFilmManagementRow());
+        importFilmsButton.addEventListener('click', () => importFileInput.click()); // Trigger hidden file input
+        exportFilmsButton.addEventListener('click', exportFilms);
+
+
+        // --- Initialization ---
+        // Add some default film data for demonstration
+        filmData.push({ name: 'Film A', options: [30, 45, 60] });
+        filmData.push({ name: 'Film B', options: [50, 65] });
+        filmData.push({ name: 'Film C', options: [40, 55, 70] });
+        filmData.push({ name: 'Film D', options: [35, 50] });
+        filmData.push({ name: 'Film E', options: [45, 60] });
+        filmData.push({ name: 'Film F', options: [55, 70] });
+
+
+        // Set initial tab to calculator
+        showTab('calculator');
+        // Populate film manager table and then calculator rows (after data is ready)
+        populateFilmManagementTable();
+        // Initially set to Harderwijk for 5 rows
+        locationSelect.value = 'harderwijk';
+        updateCalculatorRows();
+
+
+        // --- Tab Management Functions ---
+        /**
+         * Shows the selected tab and hides others.
+         * @param {string} tabName - The name of the tab to show ('calculator' or 'film-management').
+         */
+        function showTab(tabName) {
+            // Update active state for tab buttons
+            tabCalculatorBtn.classList.toggle('active', tabName === 'calculator');
+            tabFilmManagerBtn.classList.toggle('active', tabName === 'film-management');
+
+            // Show/hide content divs
+            contentCalculator.classList.toggle('hidden', tabName !== 'calculator');
+            contentFilmManager.classList.toggle('hidden', tabName !== 'film-management');
+
+            // If switching to film management, refresh its table
+            if (tabName === 'film-management') {
+                populateFilmManagementTable();
+                filmManagementMessage.textContent = ''; // Clear message when opening tab
+            } else if (tabName === 'calculator') {
+                // If switching back to calculator, refresh dropdowns and rows
+                updateCalculatorRows();
+            }
         }
-        for (const opt of optionSets[idx]) {
-          combo.push(opt);
-          search(combo, idx + 1);
-          combo.pop();
+
+        // --- Film Management Functions ---
+
+        /**
+         * Adds a new row to the film management table for adding/editing film details.
+         * @param {string} name - Default film name.
+         * @param {string} options - Default comma-separated options string.
+         */
+        function addFilmManagementRow(name = '', options = '') {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" class="film-name-input" value="${name}" placeholder="Filmnaam" onchange="saveFilmData()"></td>
+                <td><input type="text" class="film-options-input" placeholder="b.v. 45,60" value="${options}" onchange="saveFilmData()"></td>
+                <td>
+                    <button onclick="removeFilmManagementRow(this)" class="remove-button">Verwijderen</button>
+                </td>
+            `;
+            filmManagerTbody.appendChild(tr);
+            filmManagementMessage.textContent = ''; // Clear message on add
         }
-      }
-      search([], 0);
 
-      if (best) {
-        const lines = best.combo.map(c => `${c.movie}: ${c.offset} min (${minutesToTime(c.absolute)})`);
-        lines.push(`Difference: ${best.range} min`);
-        document.getElementById('output').textContent = lines.join('\n');
-      } else {
-        document.getElementById('output').textContent = 'No combination found.';
-      }
-    }
+        /**
+         * Populates the film management table from the filmData array.
+         */
+        function populateFilmManagementTable() {
+            filmManagerTbody.innerHTML = ''; // Clear existing rows
+            filmData.forEach((film) => {
+                addFilmManagementRow(film.name, film.options.join(','));
+            });
+        }
 
-    // start with two empty rows for convenience
-    addRow();
-    addRow();
-  </script>
-</body>
-</html>
+        /**
+         * Saves the current state of the film management table to filmData.
+         * This function should be called on input change or row removal.
+         * It reconstructs the filmData array directly from the DOM to ensure accuracy.
+         */
+        function saveFilmData() {
+            const rows = Array.from(filmManagerTbody.querySelectorAll('tr'));
+            filmData = rows.map(row => {
+                const nameInput = row.querySelector('.film-name-input');
+                const optionsInput = row.querySelector('.film-options-input');
+                return {
+                    name: nameInput ? nameInput.value.trim() : '',
+                    options: optionsInput ? optionsInput.value
+                        .split(',')
+                        .map(s => parseInt(s.trim(), 10))
+                        .filter(n => !isNaN(n)) : []
+                };
+            }).filter(f => f.name && f.options.length > 0); // Only keep valid films with name and at least one option
+
+            // Re-populate dropdowns in calculator tab if needed (e.g., if on that tab)
+            if (!contentCalculator.classList.contains('hidden')) {
+                populateMovieDropdowns();
+            }
+        }
+
+        /**
+         * Removes a film management row and updates filmData.
+         * @param {HTMLElement} buttonElement - The remove button that was clicked.
+         */
+        funct
