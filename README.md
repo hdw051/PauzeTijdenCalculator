@@ -13,6 +13,7 @@ Dit kleine webhulpmiddel berekent het beste pauzeschema voor filmvoorstellingen.
 3. Selecteer films en starttijden, markeer drukke films en klik op **Berekenen**.
 4. Beheer filmopties in het tabblad **Filmbeheer**. Je kunt films importeren of exporteren als JSON.
 
+5. Pas de minimale pauzekloof aan in het tabblad **Instellingen**.
 ## Ontwikkeling
 
 De app gebruikt Tailwind CDN en gewone JavaScript. Aangepaste stijlen staan in `styles.css` en het gedrag in `script.js`.
