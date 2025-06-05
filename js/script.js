@@ -37,6 +37,21 @@ let minGapRequired = 8; // Global minimum gap required between intermissions
 let defaultLocation = 'harderwijk';
 let maxResultOptions = 3;
 
+// --- Animation Helpers ---
+function applyFadeIn(el) {
+    if (el) {
+        el.classList.add('fade-in');
+        setTimeout(() => el.classList.remove('fade-in'), 300);
+    }
+}
+
+function applySlideIn(el) {
+    if (el) {
+        el.classList.add('row-slide-in');
+        setTimeout(() => el.classList.remove('row-slide-in'), 300);
+    }
+}
+
 // Load saved value from localStorage
 const savedGap = localStorage.getItem('minGapRequired');
 if (savedGap !== null) {
@@ -134,6 +149,14 @@ function showTab(tabName) {
     contentSettings.classList.toggle("hidden", tabName !== "settings");
     contentExplanation.classList.toggle("hidden", tabName !== "explanation");
 
+    const contentMap = {
+        calculator: contentCalculator,
+        "film-management": contentFilmManager,
+        explanation: contentExplanation,
+        settings: contentSettings
+    };
+    applyFadeIn(contentMap[tabName]);
+
     if (tabName === "film-management") {
         populateFilmManagementTable();
         filmManagementMessage.textContent = "";
@@ -173,6 +196,7 @@ tr.innerHTML = `
 </td>
 `;
 filmManagerTbody.appendChild(tr);
+applySlideIn(tr);
 filmManagementMessage.textContent = ''; // Clear message on add
 }
 
@@ -336,6 +360,7 @@ ${minutes.map(m => `<option value="${m}">${m}</option>`).join('')}
 </td>
 `;
 calculatorTbody.appendChild(tr);
+applySlideIn(tr);
 }
 populateMovieDropdowns(); // Populate dropdowns for new rows
 outputTabButtonsDiv.innerHTML = "";
@@ -482,6 +507,7 @@ if (isPerfectSolutionFound && solutions.length > 0) {
 outputTabsContainer.classList.add('hidden');
 singleOutputContainer.classList.remove('hidden');
 singleOutputContainer.innerHTML = generateResultHtml(solutions[0]);
+applyFadeIn(singleOutputContainer);
 } else if (solutions.length > 0) {
     // Display top solutions in tabs
 outputTabsContainer.classList.remove('hidden');
@@ -503,6 +529,7 @@ contentPane.id = `result-tab-pane-${index}`; // Ensure ID is set
 contentPane.classList.add('result-tab-pane', 'min-h-[80px]', 'space-y-3');
 contentPane.innerHTML = generateResultHtml(solution);
 outputTabContentContainer.appendChild(contentPane); // Append content pane
+applyFadeIn(contentPane);
 
 button.addEventListener('click', () => {
 // Remove active class from all buttons
