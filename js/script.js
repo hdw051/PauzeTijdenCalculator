@@ -33,6 +33,25 @@ const filmManagementMessage = document.getElementById('film-management-message')
 const minGapInput = document.getElementById('min-gap-input');
 let minGapRequired = 8; // Global minimum gap required between intermissions
 
+// --- Helper Animation Functions ---
+function fadeIn(el) {
+    if (!el) return;
+    el.classList.remove('hidden');
+    el.classList.remove('fade-out');
+    el.classList.add('fade-in');
+}
+
+function fadeOut(el, hideAfter = true) {
+    if (!el || el.classList.contains('hidden')) return;
+    el.classList.remove('fade-in');
+    el.classList.add('fade-out');
+    el.addEventListener('animationend', function handler() {
+        el.classList.remove('fade-out');
+        if (hideAfter) el.classList.add('hidden');
+        el.removeEventListener('animationend', handler);
+    });
+}
+
 // Load saved value from localStorage
 const savedGap = localStorage.getItem('minGapRequired');
 if (savedGap !== null) {
@@ -92,11 +111,21 @@ function showTab(tabName) {
     tabExplanationBtn.classList.toggle("active", tabName === "explanation");
     tabSettingsBtn.classList.toggle("active", tabName === "settings");
 
-    // Show/hide content sections
-    contentCalculator.classList.toggle("hidden", tabName !== "calculator");
-    contentFilmManager.classList.toggle("hidden", tabName !== "film-management");
-    contentSettings.classList.toggle("hidden", tabName !== "settings");
-    contentExplanation.classList.toggle("hidden", tabName !== "explanation");
+    // Animated show/hide of content sections
+    const sections = {
+        calculator: contentCalculator,
+        'film-management': contentFilmManager,
+        settings: contentSettings,
+        explanation: contentExplanation
+    };
+
+    Object.entries(sections).forEach(([name, el]) => {
+        if (name === tabName) {
+            fadeIn(el);
+        } else {
+            fadeOut(el);
+        }
+    });
 
     if (tabName === "film-management") {
         populateFilmManagementTable();
@@ -174,9 +203,14 @@ populateMovieDropdowns();
 * @param {HTMLElement} buttonElement - The remove button that was clicked.
 */
 function removeFilmManagementRow(buttonElement) {
-buttonElement.closest('tr').remove(); // Remove the row from DOM
-saveFilmData(); // Re-save data to update filmData array correctly
-filmManagementMessage.textContent = 'Film succesvol verwijderd.';
+    const row = buttonElement.closest('tr');
+    if (!row) return;
+    fadeOut(row, false);
+    row.addEventListener('animationend', () => {
+        row.remove();
+        saveFilmData();
+        filmManagementMessage.textContent = 'Film succesvol verwijderd.';
+    }, { once: true });
 }
 
 /**
@@ -438,13 +472,15 @@ function displayResults(solutions, isPerfectSolutionFound) {
 
 if (isPerfectSolutionFound && solutions.length > 0) {
 // Display single best perfect solution
-outputTabsContainer.classList.add('hidden');
-singleOutputContainer.classList.remove('hidden');
-singleOutputContainer.innerHTML = generateResultHtml(solutions[0]);
+    outputTabsContainer.classList.add('hidden');
+    singleOutputContainer.classList.remove('hidden');
+    singleOutputContainer.innerHTML = generateResultHtml(solutions[0]);
+    fadeIn(singleOutputContainer);
 } else if (solutions.length > 0) {
-// Display top 3 solutions in tabs
-outputTabsContainer.classList.remove('hidden');
-singleOutputContainer.classList.add('hidden');
+    // Display top 3 solutions in tabs
+    outputTabsContainer.classList.remove('hidden');
+    singleOutputContainer.classList.add('hidden');
+    fadeIn(outputTabsContainer);
 
 const maxTabs = Math.min(solutions.length, 3); // Display max 3 tabs
 
@@ -492,6 +528,7 @@ contentPane.classList.add('hidden');
     singleOutputContainer.classList.remove('hidden');
     singleOutputContainer.innerHTML = '<p class="text-gray-600">Geen combinatie gevonden die voldoet aan alle regels (inclusief "Drukte"-beperkingen).</p>';
     resultHeader.classList.remove('hidden');
+    fadeIn(singleOutputContainer);
 }
 }
 
@@ -503,11 +540,17 @@ contentPane.classList.add('hidden');
 * between intermediate intermissions, and enforcing "Drukte" constraints.
 */
 function calculate() {
-const movies = parseMovies();
-outputTabButtonsDiv.innerHTML = '';
-outputTabContentContainer.innerHTML = '';
-singleOutputContainer.innerHTML = '';
-outputTabsContainer.classList.add("hidden");
+    // Button pulse animation
+    calculateBtn.classList.add('pulse');
+    calculateBtn.addEventListener('animationend', () => {
+        calculateBtn.classList.remove('pulse');
+    }, { once: true });
+
+    const movies = parseMovies();
+    outputTabButtonsDiv.innerHTML = '';
+    outputTabContentContainer.innerHTML = '';
+    singleOutputContainer.innerHTML = '';
+    outputTabsContainer.classList.add("hidden");
 singleOutputContainer.classList.add("hidden");
 
 
