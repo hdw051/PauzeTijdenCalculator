@@ -60,11 +60,11 @@ function applySlideIn(el) {
 
 function updateLabelHighlight() {
     if (locationToggleInput.checked) {
-        labelHarderwijk.classList.add('highlight');
-        labelLelystad.classList.remove('highlight');
+        labelHarderwijk.classList.remove('selected-harderwijk');
+        labelLelystad.classList.add('selected-lelystad');
     } else {
-        labelHarderwijk.classList.remove('highlight');
-        labelLelystad.classList.add('highlight');
+        labelHarderwijk.classList.add('selected-harderwijk');
+        labelLelystad.classList.remove('selected-lelystad');
     }
 }
 
