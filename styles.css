@@ -17,7 +17,10 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: var(--background-color);
+    background: linear-gradient(118deg, #f4eedd 1%, #f1ebda 36%, #e6e0d0), url('background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: var(--text-color);
 }
 
