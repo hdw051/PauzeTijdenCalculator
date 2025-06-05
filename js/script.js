@@ -29,6 +29,7 @@ const singleOutputContainer = document.getElementById('single-output-container')
 const resultHeader = document.getElementById('result-header');
 
 const appVersionElement = document.getElementById('app-version');
+const appVersionFooter = document.getElementById('app-version-footer');
 
 const importFileInput = document.getElementById('import-file-input');
 const importFilmsButton = document.getElementById('import-films-button');
@@ -41,7 +42,7 @@ const maxResultsInput = document.getElementById('max-results-input');
 let minGapRequired = 8; // Global minimum gap required between intermissions
 let defaultLocation = 'harderwijk';
 let maxResultOptions = 3;
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.0.1';
 
 // --- Animation Helpers ---
 function applyFadeIn(el) {
@@ -163,6 +164,9 @@ updateCalculatorRows();
 if (appVersionElement) {
     appVersionElement.textContent = APP_VERSION;
 }
+if (appVersionFooter) {
+    appVersionFooter.textContent = APP_VERSION;
+}
 
 
 // --- Tab Management Functions ---
@@ -208,6 +212,9 @@ function showTab(tabName) {
         }
         if (appVersionElement) {
             appVersionElement.textContent = APP_VERSION;
+        }
+        if (appVersionFooter) {
+            appVersionFooter.textContent = APP_VERSION;
         }
     }
 }
@@ -502,29 +509,39 @@ return `${h}:${m}`;
 * @returns {string} The HTML string for the result.
 */
 function generateResultHtml(solution) {
-const htmlParts = [];
-const sortedCombo = [...solution.combo].sort((a, b) => a.absolute - b.absolute);
+    const htmlParts = [];
+    const sortedCombo = [...solution.combo].sort((a, b) => a.absolute - b.absolute);
 
-sortedCombo.forEach((intermission, i) => {
-    htmlParts.push(`
-<div class="bg-highlight p-3 rounded-md border border-gray-300">
-<p class="font-semibold text-black">${intermission.movie}: ${intermission.offset} min (${minutesToTime(intermission.absolute)})</p>
-${i < sortedCombo.length - 1 ?
-`<p class="text-black text-sm pl-4">  &rarr; ${sortedCombo[i+1].absolute - intermission.absolute} min pauze tot de volgende</p>` : ''
-}
-</div>
-`);
-});
+    htmlParts.push('<div class="timeline-container">');
+
+    sortedCombo.forEach((intermission, i) => {
+        htmlParts.push(`
+        <div class="movie-block">
+            <p class="font-semibold text-black">${intermission.movie}: ${intermission.offset} min (${minutesToTime(intermission.absolute)})</p>
+        </div>
+        `);
+
+        if (i < sortedCombo.length - 1) {
+            const gap = sortedCombo[i+1].absolute - intermission.absolute;
+            htmlParts.push(`
+            <div class="gap-block">
+                <p class="text-sm text-black">${gap} min tot volgende</p>
+            </div>
+            `);
+        }
+    });
+
+    htmlParts.push('</div>');
 
     htmlParts.push(`
-<div class="bg-background p-4 rounded-lg font-semibold text-black">
-<p>Totaal verschil tussen eerste en laatste pauzemoment: ${solution.range} min</p>
-${solution.minGap !== Infinity && solution.minGap !== 0 && sortedCombo.length > 1 ?
-`<p>Minimale kloof tussen pauzes: ${solution.minGap} min</p>` : ''
-}
-</div>
-`);
-return htmlParts.join('');
+    <div class="bg-background p-4 rounded-lg font-semibold text-black">
+        <p>Totaal verschil tussen eerste en laatste pauzemoment: ${solution.range} min</p>
+        ${solution.minGap !== Infinity && solution.minGap !== 0 && sortedCombo.length > 1 ?
+            `<p>Minimale kloof tussen pauzes: ${solution.minGap} min</p>` : ''
+        }
+    </div>
+    `);
+    return htmlParts.join('');
 }
 
 /**
