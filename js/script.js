@@ -30,6 +30,7 @@ const resultHeader = document.getElementById('result-header');
 
 const appVersionElement = document.getElementById('app-version');
 const appVersionFooter = document.getElementById('app-version-footer');
+const movieQuoteElement = document.getElementById('movie-quote');
 
 const importFileInput = document.getElementById('import-file-input');
 const importFilmsButton = document.getElementById('import-films-button');
@@ -48,6 +49,21 @@ let minGapRequired = 8; // Global minimum gap required between intermissions
 let defaultLocation = 'harderwijk';
 let maxResultOptions = 3;
 const APP_VERSION = '1.0.1';
+
+function loadRandomQuote() {
+    if (!movieQuoteElement) return;
+    fetch('movie_quotes.json')
+        .then(response => response.json())
+        .then(quotes => {
+            if (Array.isArray(quotes) && quotes.length > 0) {
+                const randomIndex = Math.floor(Math.random() * quotes.length);
+                movieQuoteElement.textContent = quotes[randomIndex];
+            }
+        })
+        .catch(err => {
+            console.error('Error loading quotes:', err);
+        });
+}
 
 // --- Animation Helpers ---
 function applyFadeIn(el) {
@@ -191,6 +207,7 @@ if (appVersionElement) {
 if (appVersionFooter) {
     appVersionFooter.textContent = APP_VERSION;
 }
+loadRandomQuote();
 
 
 // --- Tab Management Functions ---
