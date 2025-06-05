@@ -65,6 +65,18 @@ function loadRandomQuote() {
         });
 }
 
+/**
+ * Returns the current date as yyyymmdd.
+ * @returns {string} The formatted date string.
+ */
+function getCurrentDateString() {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    return `${yyyy}${mm}${dd}`;
+}
+
 // --- Animation Helpers ---
 function applyFadeIn(el) {
     if (el) {
@@ -347,9 +359,10 @@ const dataStr = JSON.stringify(filmData, null, 2);
 const blob = new Blob([dataStr], { type: 'application/json' });
 const url = URL.createObjectURL(blob);
 
-const a = document.createElement('a');
-a.href = url;
-a.download = 'intermission_films.json';
+    const a = document.createElement('a');
+    a.href = url;
+    const dateStr = getCurrentDateString();
+    a.download = `pauzetijden_${dateStr}.json`;
 document.body.appendChild(a); // Append to body is required for Firefox
 a.click();
 document.body.removeChild(a);
