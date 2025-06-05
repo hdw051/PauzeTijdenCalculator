@@ -265,6 +265,26 @@ input[type="text"], select {
     border-bottom-right-radius: 0.5rem;
 }
 
+/* Timeline result blocks */
+.timeline-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.movie-block {
+    background-color: var(--highlight-color);
+    border: 1px solid #D1D5DB;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+}
+.gap-block {
+    background-color: var(--background-color);
+    border-left: 4px solid var(--secondary-color);
+    margin-left: 1rem;
+    padding: 0.25rem 1rem;
+    font-style: italic;
+}
+
 /* Table row styling */
 tbody tr:nth-child(even) {
     background-color: var(--highlight-color);
