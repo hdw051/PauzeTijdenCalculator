@@ -5,8 +5,10 @@ let filmData = [];
 // --- DOM Elements ---
 const tabCalculatorBtn = document.getElementById('tab-calculator');
 const tabFilmManagerBtn = document.getElementById('tab-film-management');
+const tabExplanationBtn = document.getElementById('tab-explanation');
 const contentCalculator = document.getElementById('content-calculator');
 const contentFilmManager = document.getElementById('content-film-management');
+const contentExplanation = document.getElementById('content-explanation');
 
 const calculatorTbody = document.querySelector('#movies-calculator tbody');
 const filmManagerTbody = document.querySelector('#movies-manager tbody');
@@ -31,6 +33,7 @@ const MIN_GAP_REQUIRED = 8; // Global minimum gap required between intermissions
 // --- Event Listeners ---
 tabCalculatorBtn.addEventListener('click', () => showTab('calculator'));
 tabFilmManagerBtn.addEventListener('click', () => showTab('film-management'));
+tabExplanationBtn.addEventListener('click', () => showTab('explanation'));
 locationSelect.addEventListener('change', updateCalculatorRows);
 calculateBtn.addEventListener('click', calculate);
 addFilmManagerBtn.addEventListener('click', () => addFilmManagementRow());
@@ -66,10 +69,12 @@ function showTab(tabName) {
 // Update active state for tab buttons
 tabCalculatorBtn.classList.toggle('active', tabName === 'calculator');
 tabFilmManagerBtn.classList.toggle('active', tabName === 'film-management');
+tabExplanationBtn.classList.toggle('active', tabName === 'explanation');
 
 // Show/hide content divs
 contentCalculator.classList.toggle('hidden', tabName !== 'calculator');
 contentFilmManager.classList.toggle('hidden', tabName !== 'film-management');
+contentExplanation.classList.toggle('hidden', tabName !== 'explanation');
 
 // If switching to film management, refresh its table
 if (tabName === 'film-management') {
