@@ -11,8 +11,10 @@
     <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body class="min-h-screen flex flex-col items-center justify-start p-4 sm:p-6 md:p-8">
+    <div class="logo-bar w-full mb-4">
+        <img src="images/logo_kokcinemaxx.png" alt="Logo" class="mx-auto w-48">
+    </div>
     <div class="main-container">
-        <img src="images/logo_kokcinemaxx.png" alt="Logo" class="mb-4 w-48 self-start">
         <h1 class="page-title text-3xl sm:text-4xl font-bold text-center text-black mb-6">Pauze Planner</h1>
 
         <!-- Tab Navigation -->
@@ -113,6 +115,17 @@
             <div class="mb-4">
                 <label for="min-gap-input" class="block text-sm font-bold mb-2 text-black">Minimale pauzekloof (minuten):</label>
                 <input type="number" id="min-gap-input" min="0" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="default-location-select" class="block text-sm font-bold mb-2 text-black">Standaardlocatie:</label>
+                <select id="default-location-select" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="harderwijk">Harderwijk (5 zalen)</option>
+                    <option value="lelystad">Lelystad (6 zalen)</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="max-results-input" class="block text-sm font-bold mb-2 text-black">Max aantal resultaatopties:</label>
+                <input type="number" id="max-results-input" min="1" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <p class="text-black text-sm mb-2">De ingestelde waarde wordt lokaal opgeslagen.</p>
             <p class="text-black text-sm">Deze pauzekloof bepaalt hoeveel minuten er minimaal tussen twee drukke voorstellingen moeten zitten. Verander de waarde en de planner past zijn berekening direct aan.</p>
