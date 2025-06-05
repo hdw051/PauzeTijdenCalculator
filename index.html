@@ -24,7 +24,7 @@
     <tbody></tbody>
   </table>
   <button id="add">Add Movie</button>
-  <button id="calculate">Calculate Best Intermissions</button>
+  <button id="calculate">Calculate Widest Intermissions</button>
   <pre id="output"></pre>
 
   <script>
@@ -90,7 +90,7 @@
           const times = combo.map(c => c.absolute);
           const range = Math.max(...times) - Math.min(...times);
           const maxTime = Math.max(...times);
-          if (!best || range < best.range || (range === best.range && maxTime < best.maxTime)) {
+          if (!best || range > best.range || (range === best.range && maxTime < best.maxTime)) {
             best = { combo: combo.slice(), range, maxTime };
           }
           return;
