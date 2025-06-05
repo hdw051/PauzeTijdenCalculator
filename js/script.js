@@ -19,6 +19,7 @@ const outputTabsContainer = document.getElementById('output-tabs'); // Container
 const outputTabButtonsDiv = outputTabsContainer.querySelector('.flex'); // Div for tab buttons
 const outputTabContentContainer = document.getElementById('output-tab-content-container'); // Container for tab content
 const singleOutputContainer = document.getElementById('single-output-container'); // Container for single result
+const resultHeader = document.getElementById('result-header');
 
 const importFileInput = document.getElementById('import-file-input');
 const importFilmsButton = document.getElementById('import-films-button');
@@ -255,7 +256,7 @@ ${minutes.map(m => `<option value="${m}">${m}</option>`).join('')}
 <td class="text-center">
 <label class="relative inline-flex items-center cursor-pointer">
 <input type="checkbox" class="busy-checkbox sr-only peer">
-<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
 <span class="ml-2 text-sm font-medium text-gray-700">Drukte</span>
 </label>
 </td>
@@ -265,9 +266,10 @@ calculatorTbody.appendChild(tr);
 populateMovieDropdowns(); // Populate dropdowns for new rows
 outputTabButtonsDiv.innerHTML = "";
 outputTabContentContainer.innerHTML = "";
-singleOutputContainer.innerHTML = "";
-outputTabsContainer.classList.add("hidden");
-singleOutputContainer.classList.add("hidden");
+    singleOutputContainer.innerHTML = "";
+    outputTabsContainer.classList.add("hidden");
+    singleOutputContainer.classList.add("hidden");
+    resultHeader.classList.add('hidden');
 }
 
 /**
@@ -395,10 +397,11 @@ return htmlParts.join('');
 * @param {boolean} isPerfectSolutionFound - True if at least one perfect solution was found.
 */
 function displayResults(solutions, isPerfectSolutionFound) {
-// Clear previous output
-outputTabButtonsDiv.innerHTML = '';
-outputTabContentContainer.innerHTML = '';
-singleOutputContainer.innerHTML = '';
+    // Clear previous output
+    outputTabButtonsDiv.innerHTML = '';
+    outputTabContentContainer.innerHTML = '';
+    singleOutputContainer.innerHTML = '';
+    resultHeader.classList.remove('hidden');
 
 if (isPerfectSolutionFound && solutions.length > 0) {
 // Display single best perfect solution
@@ -452,9 +455,10 @@ contentPane.classList.add('hidden');
 });
 } else {
 // No solutions found at all
-outputTabsContainer.classList.add('hidden');
-singleOutputContainer.classList.remove('hidden');
-singleOutputContainer.innerHTML = '<p class="text-gray-600">Geen combinatie gevonden die voldoet aan alle regels (inclusief "Drukte"-beperkingen).</p>';
+    outputTabsContainer.classList.add('hidden');
+    singleOutputContainer.classList.remove('hidden');
+    singleOutputContainer.innerHTML = '<p class="text-gray-600">Geen combinatie gevonden die voldoet aan alle regels (inclusief "Drukte"-beperkingen).</p>';
+    resultHeader.classList.remove('hidden');
 }
 }
 
@@ -475,10 +479,11 @@ singleOutputContainer.classList.add("hidden");
 
 
 if (movies.length === 0) {
-singleOutputContainer.innerHTML = '<p class="text-gray-600">Voer geldige filmdata in.</p>';
-outputTabsContainer.classList.add('hidden');
-singleOutputContainer.classList.remove('hidden');
-return;
+    singleOutputContainer.innerHTML = '<p class="text-gray-600">Voer geldige filmdata in.</p>';
+    outputTabsContainer.classList.add('hidden');
+    singleOutputContainer.classList.remove('hidden');
+    resultHeader.classList.remove('hidden');
+    return;
 }
 
 // Prepare option sets for each movie, converting start times and offsets to absolute minutes
@@ -493,10 +498,11 @@ isBusy: m.isBusy // Propagate the isBusy flag to each option
 }).filter(set => set.length > 0); // Filter out movies without valid options
 
 if (optionSets.length === 0) {
-singleOutputContainer.innerHTML = '<p class="text-gray-600">Geen geldige pauze-opties gevonden voor de geselecteerde films.</p>';
-outputTabsContainer.classList.add('hidden');
-singleOutputContainer.classList.remove('hidden');
-return;
+    singleOutputContainer.innerHTML = '<p class="text-gray-600">Geen geldige pauze-opties gevonden voor de geselecteerde films.</p>';
+    outputTabsContainer.classList.add('hidden');
+    singleOutputContainer.classList.remove('hidden');
+    resultHeader.classList.remove('hidden');
+    return;
 }
 
 const allCandidateSolutions = []; // Stores all valid (by busy rule) combinations
@@ -607,9 +613,10 @@ displayResults([bestPerfectSolution], true); // Found a perfect solution
 displayResults(fallbackSolutions, false); // No perfect solution, display top 3 best efforts
 } else {
 // No valid combinations found at all (even after busy check)
-singleOutputContainer.innerHTML = '<p class="text-gray-600">Geen combinatie gevonden die voldoet aan alle regels (inclusief "Drukte"-beperkingen).</p>';
-outputTabsContainer.classList.add('hidden');
-singleOutputContainer.classList.remove('hidden');
+    singleOutputContainer.innerHTML = '<p class="text-gray-600">Geen combinatie gevonden die voldoet aan alle regels (inclusief "Drukte"-beperkingen).</p>';
+    outputTabsContainer.classList.add('hidden');
+    singleOutputContainer.classList.remove('hidden');
+    resultHeader.classList.remove('hidden');
 }
 }
 
