@@ -19,6 +19,7 @@
         <div class="flex border-b border-gray-200 mb-6 rounded-t-xl overflow-hidden">
             <button id="tab-calculator" class="tab-button active flex-1">Planner</button>
             <button id="tab-film-management" class="tab-button flex-1">Filmbeheer</button>
+            <button id="tab-settings" class="tab-button flex-1">Instellingen</button>
             <button id="tab-explanation" class="tab-button flex-1">Uitleg</button>
         </div>
 
@@ -50,8 +51,6 @@
             </div>
 
             <div class="mb-4">
-                <label for="min-gap-input" class="block text-sm font-bold mb-2 text-black">Minimale pauzekloof (minuten):</label>
-                <input type="number" id="min-gap-input" min="0" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
             <div class="flex flex-col sm:flex-row justify-center sm:justify-start gap-4 mb-6">
@@ -108,12 +107,22 @@
             </div>
              <p id="film-management-message" class="mt-4 text-sm text-black"></p>
         </div>
+        <!-- Settings Tab Content -->
+        <div id="content-settings" class="tab-content hidden">
+            <h2 class="text-2xl font-bold text-black mb-4">Instellingen</h2>
+            <div class="mb-4">
+                <label for="min-gap-input" class="block text-sm font-bold mb-2 text-black">Minimale pauzekloof (minuten):</label>
+                <input type="number" id="min-gap-input" min="0" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <p class="text-black text-sm">De ingestelde waarde wordt lokaal opgeslagen.</p>
+        </div>
 
         <!-- Explanation Tab Content -->
         <div id="content-explanation" class="tab-content hidden">
             <h2 class="text-2xl font-bold text-black mb-4">Uitleg</h2>
-            <p class="mb-2 text-black">Gebruik de planner om snel pauzemomenten te vinden die aansluiten op de filmstarttijden. In het tabblad Filmbeheer kun je films toevoegen of importeren.</p>
-            <p class="text-black">Deze tool is bedoeld als hulp voor medewerkers van de bioscoop. Wees niet bang om te experimenteren; alle wijzigingen worden direct bijgehouden in je browser.</p>
+            <p class="mb-2 text-black">Selecteer je locatie en kies bij elke zaal een film met starttijd. Klik vervolgens op <strong>Berekenen</strong> om pauzemomenten te krijgen.</p>
+            <p class="mb-2 text-black">Vink <em>Drukte</em> aan wanneer een voorstelling erg populair is; de planner houdt dan minimaal de ingestelde pauzekloof aan.</p>
+            <p class="text-black">Onder <strong>Filmbeheer</strong> pas je de filmopties aan. In het tabblad <strong>Instellingen</strong> stel je de minimale pauzekloof in.</p>
         </div>
     </div>
 

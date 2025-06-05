@@ -6,6 +6,8 @@ let filmData = [];
 const tabCalculatorBtn = document.getElementById('tab-calculator');
 const tabFilmManagerBtn = document.getElementById('tab-film-management');
 const tabExplanationBtn = document.getElementById('tab-explanation');
+const tabSettingsBtn = document.getElementById("tab-settings");
+const contentSettings = document.getElementById("content-settings");
 const contentCalculator = document.getElementById('content-calculator');
 const contentFilmManager = document.getElementById('content-film-management');
 const contentExplanation = document.getElementById('content-explanation');
@@ -51,6 +53,7 @@ if (minGapInput) {
 tabCalculatorBtn.addEventListener('click', () => showTab('calculator'));
 tabFilmManagerBtn.addEventListener('click', () => showTab('film-management'));
 tabExplanationBtn.addEventListener('click', () => showTab('explanation'));
+tabSettingsBtn.addEventListener("click", () => showTab("settings"));
 locationSelect.addEventListener('change', updateCalculatorRows);
 calculateBtn.addEventListener('click', calculate);
 addFilmManagerBtn.addEventListener('click', () => addFilmManagementRow());
@@ -83,24 +86,28 @@ updateCalculatorRows();
 * @param {string} tabName - The name of the tab to show ('calculator' or 'film-management').
 */
 function showTab(tabName) {
-// Update active state for tab buttons
-tabCalculatorBtn.classList.toggle('active', tabName === 'calculator');
-tabFilmManagerBtn.classList.toggle('active', tabName === 'film-management');
-tabExplanationBtn.classList.toggle('active', tabName === 'explanation');
+    // Update active state for tab buttons
+    tabCalculatorBtn.classList.toggle("active", tabName === "calculator");
+    tabFilmManagerBtn.classList.toggle("active", tabName === "film-management");
+    tabExplanationBtn.classList.toggle("active", tabName === "explanation");
+    tabSettingsBtn.classList.toggle("active", tabName === "settings");
 
-// Show/hide content divs
-contentCalculator.classList.toggle('hidden', tabName !== 'calculator');
-contentFilmManager.classList.toggle('hidden', tabName !== 'film-management');
-contentExplanation.classList.toggle('hidden', tabName !== 'explanation');
+    // Show/hide content sections
+    contentCalculator.classList.toggle("hidden", tabName !== "calculator");
+    contentFilmManager.classList.toggle("hidden", tabName !== "film-management");
+    contentSettings.classList.toggle("hidden", tabName !== "settings");
+    contentExplanation.classList.toggle("hidden", tabName !== "explanation");
 
-// If switching to film management, refresh its table
-if (tabName === 'film-management') {
-populateFilmManagementTable();
-filmManagementMessage.textContent = ''; // Clear message when opening tab
-} else if (tabName === 'calculator') {
-// If switching back to calculator, refresh dropdowns and rows
-updateCalculatorRows();
-}
+    if (tabName === "film-management") {
+        populateFilmManagementTable();
+        filmManagementMessage.textContent = "";
+    } else if (tabName === "calculator") {
+        updateCalculatorRows();
+    } else if (tabName === "settings") {
+        if (minGapInput) {
+            minGapInput.value = minGapRequired;
+        }
+    }
 }
 
 // --- Film Management Functions ---
