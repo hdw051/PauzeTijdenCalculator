@@ -94,13 +94,17 @@ exportFilmsButton.addEventListener('click', exportFilms);
 
 
 // --- Initialization ---
-// Add some default film data for demonstration
-filmData.push({ name: 'Film A', options: [30, 45, 60] });
-filmData.push({ name: 'Film B', options: [50, 65] });
-filmData.push({ name: 'Film C', options: [40, 55, 70] });
-filmData.push({ name: 'Film D', options: [35, 50] });
-filmData.push({ name: 'Film E', options: [45, 60] });
-filmData.push({ name: 'Film F', options: [55, 70] });
+// Add some default film data with famous movies and varied intermission times
+filmData.push({ name: 'The Godfather', options: [58, 76] });
+filmData.push({ name: 'Titanic', options: [61, 79] });
+filmData.push({ name: 'Star Wars', options: [47, 64, 82] });
+filmData.push({ name: 'Jurassic Park', options: [52, 73] });
+filmData.push({ name: 'The Dark Knight', options: [45, 67, 83] });
+filmData.push({ name: 'Pulp Fiction', options: [56, 71] });
+filmData.push({ name: 'Forrest Gump', options: [59, 77] });
+filmData.push({ name: 'Inception', options: [53, 69, 88] });
+filmData.push({ name: 'The Matrix', options: [48, 66] });
+filmData.push({ name: 'The Lord of the Rings', options: [60, 74, 90] });
 
 
 // Set initial tab to calculator
