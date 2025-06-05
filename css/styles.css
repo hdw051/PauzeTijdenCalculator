@@ -7,6 +7,7 @@
     --background-color: #F9F7F1; /* light background */
     --highlight-color: #F1ECE4; /* lighter highlight */
     --text-color: #000000;
+    --hall-color: #B58A1A; /* color for hall badge and timeline line */
 }
 
 @keyframes fadeIn {
@@ -282,7 +283,7 @@ input[type="text"], select {
 }
 .gap-block {
     background-color: var(--background-color);
-    border-left: 4px solid var(--secondary-color);
+    border-left: 4px solid var(--hall-color);
     margin-left: 1rem;
     padding: 0.25rem 1rem;
     font-style: italic;
@@ -292,7 +293,7 @@ input[type="text"], select {
 }
 
 .hall-badge {
-    background-color: var(--secondary-color);
+    background-color: var(--hall-color);
     color: #fff;
     border-radius: 0.375rem;
     padding: 0.125rem 0.375rem;

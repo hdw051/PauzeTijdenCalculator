@@ -79,9 +79,11 @@ function updateTheme() {
     if (locationSelect.value === 'lelystad') {
         root.style.setProperty('--primary-color', '#B58A1A');
         root.style.setProperty('--primary-hover', '#836512');
+        root.style.setProperty('--hall-color', '#B58A1A');
     } else {
         root.style.setProperty('--primary-color', '#C31B20');
         root.style.setProperty('--primary-hover', '#8E1014');
+        root.style.setProperty('--hall-color', '#C31B20');
     }
 }
 
