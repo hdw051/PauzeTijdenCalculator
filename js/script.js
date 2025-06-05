@@ -535,6 +535,20 @@ return `${h}:${m}`;
 }
 
 /**
+ * Formats a minute value as "X uur Y min" when >= 60, otherwise "X min".
+ * @param {number} min - The number of minutes.
+ * @returns {string} The formatted string.
+ */
+function formatMinutes(min) {
+    if (min >= 60) {
+        const h = Math.floor(min / 60);
+        const m = min % 60;
+        return `${h} uur ${m} min`;
+    }
+    return `${min} min`;
+}
+
+/**
 * Generates the HTML content for a single result option.
 * @param {Object} solution - The solution object containing combo, range, minGap, etc.
 * @returns {string} The HTML string for the result.
@@ -550,7 +564,9 @@ function generateResultHtml(solution) {
         <div class="movie-block">
             <img src="images/icons/film.svg" class="icon" alt="film">
             <span class="hall-badge">${intermission.hall}</span>
-            <p class="font-semibold text-black">${intermission.movie}: ${intermission.offset} min (${minutesToTime(intermission.absolute)})</p>
+            <span class="movie-title">${intermission.movie}</span>
+            <span class="offset-text">${formatMinutes(intermission.offset)}</span>
+            <span class="time-text">${minutesToTime(intermission.absolute)}</span>
         </div>
         `);
 
@@ -559,7 +575,7 @@ function generateResultHtml(solution) {
             htmlParts.push(`
             <div class="gap-block">
                 <img src="images/icons/clock.svg" class="icon" alt="tijd">
-                <p class="text-sm text-black">${gap} min tot volgende</p>
+                <p class="text-sm text-black">${formatMinutes(gap)} tot volgende</p>
             </div>
             `);
         }
@@ -569,9 +585,9 @@ function generateResultHtml(solution) {
 
     htmlParts.push(`
     <div class="bg-background p-4 rounded-lg font-semibold text-black">
-        <p>Totaal verschil tussen eerste en laatste pauzemoment: ${solution.range} min</p>
+        <p>Totaal verschil tussen eerste en laatste pauzemoment: ${formatMinutes(solution.range)}</p>
         ${solution.minGap !== Infinity && solution.minGap !== 0 && sortedCombo.length > 1 ?
-            `<p>Minimale kloof tussen pauzes: ${solution.minGap} min</p>` : ''
+            `<p>Minimale kloof tussen pauzes: ${formatMinutes(solution.minGap)}</p>` : ''
         }
     </div>
     `);
