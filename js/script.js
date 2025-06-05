@@ -562,11 +562,17 @@ function generateResultHtml(solution) {
     sortedCombo.forEach((intermission, i) => {
         htmlParts.push(`
         <div class="movie-block">
-            <img src="images/icons/film.svg" class="icon" alt="film">
+            <span class="flex items-center gap-1">
+                <img src="images/icons/film.svg" class="icon" alt="start">
+                <span class="time-text">${intermission.start}</span>
+            </span>
             <span class="hall-badge">${intermission.hall}</span>
             <span class="movie-title">${intermission.movie}</span>
             <span class="offset-text">${formatMinutes(intermission.offset)}</span>
-            <span class="time-text">${minutesToTime(intermission.absolute)}</span>
+            <span class="flex items-center gap-1">
+                <img src="images/icons/clock.svg" class="icon" alt="pauze">
+                <span class="time-text">${minutesToTime(intermission.absolute)}</span>
+            </span>
         </div>
         `);
 
@@ -574,7 +580,6 @@ function generateResultHtml(solution) {
             const gap = sortedCombo[i+1].absolute - intermission.absolute;
             htmlParts.push(`
             <div class="gap-block">
-                <img src="images/icons/clock.svg" class="icon" alt="tijd">
                 <p class="text-sm text-black">${formatMinutes(gap)} tot volgende</p>
             </div>
             `);
@@ -695,11 +700,12 @@ if (movies.length === 0) {
 const optionSets = movies.map(m => {
 const startMin = timeToMinutes(m.start);
 return m.options.map(off => ({
-movie: m.name,
-hall: m.hall,
-offset: off,
-absolute: startMin + off,
-isBusy: m.isBusy
+    movie: m.name,
+    hall: m.hall,
+    start: m.start,
+    offset: off,
+    absolute: startMin + off,
+    isBusy: m.isBusy
 }));
 }).filter(set => set.length > 0); // Filter out movies without valid options
 
