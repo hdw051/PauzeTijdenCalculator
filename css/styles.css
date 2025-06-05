@@ -241,3 +241,30 @@ tbody tr:hover {
     background-color: var(--highlight-color);
 }
 
+/* Responsive table styling */
+@media (max-width: 640px) {
+    table.responsive-table thead {
+        display: none;
+    }
+
+    table.responsive-table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #D1D5DB;
+    }
+
+    table.responsive-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    table.responsive-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        margin-right: 0.5rem;
+    }
+}
+
