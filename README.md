@@ -11,7 +11,7 @@ Dit kleine webhulpmiddel berekent het beste pauzeschema voor filmvoorstellingen.
    en ga vervolgens naar `http://localhost:8000`.
 2. Kies een locatie om het juiste aantal zalen te laden.
 3. Selecteer films en starttijden, markeer drukke films en klik op **Berekenen**.
-4. Beheer filmopties in het tabblad **Filmbeheer**. Je kunt films importeren of exporteren als JSON.
+4. Beheer filmopties in het tabblad **Filmbeheer**. Je kunt films importeren of exporteren als JSON. Bij het exporteren krijgt het bestand automatisch een naam in het formaat `pauzetijden_yyyymmdd.json`.
 
 5. Pas in het tabblad **Instellingen** de minimale pauzekloof aan en kies een standaardlocatie of het aantal getoonde resultaten.
 ## Ontwikkeling
