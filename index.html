@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body class="min-h-screen flex flex-col items-center justify-start p-4 sm:p-6 md:p-8">
-    <img src="images/logo_kokcinemaxx.png" alt="Logo" class="mx-auto mb-4 w-48">
+    <img src="images/logo_kokcinemaxx.png" alt="Logo" class="mb-4 w-48 self-start">
     <div class="main-container">
         <h1 class="page-title text-3xl sm:text-4xl font-bold text-center text-black mb-6">Pauze Planner</h1>
 
@@ -27,8 +27,8 @@
                 <label for="location-select" class="block text-sm font-bold mb-2 text-black">Kies Locatie:</label>
                 <select id="location-select" class="shadow appearance-none border rounded-md w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
                     <option value="none">-- Selecteer Locatie --</option>
-                    <option value="harderwijk">Harderwijk (5 Zalen)</option>
-                    <option value="lelystad">Lelystad (6 Zalen)</option>
+                    <option value="harderwijk">Harderwijk (5 zalen)</option>
+                    <option value="lelystad">Lelystad (6 zalen)</option>
                 </select>
             </div>
 
@@ -54,7 +54,7 @@
                 </button>
             </div>
 
-            <h2 class="text-xl font-semibold text-black mb-3">Resultaat:</h2>
+            <h2 id="result-header" class="text-xl font-semibold text-black mb-3 hidden">Resultaat:</h2>
             <!-- Output container for results, either single or multiple tabs -->
             <div id="output-wrapper" class="min-h-[80px] space-y-3">
                  <div id="output-tabs" class="hidden">
