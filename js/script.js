@@ -31,7 +31,11 @@ const exportFilmsButton = document.getElementById('export-films-button');
 const filmManagementMessage = document.getElementById('film-management-message');
 
 const minGapInput = document.getElementById('min-gap-input');
+const defaultLocationSelect = document.getElementById('default-location-select');
+const maxResultsInput = document.getElementById('max-results-input');
 let minGapRequired = 8; // Global minimum gap required between intermissions
+let defaultLocation = 'harderwijk';
+let maxResultOptions = 3;
 
 // Load saved value from localStorage
 const savedGap = localStorage.getItem('minGapRequired');
@@ -46,6 +50,34 @@ if (minGapInput) {
     minGapInput.addEventListener('change', () => {
         minGapRequired = parseInt(minGapInput.value, 10) || 0;
         localStorage.setItem('minGapRequired', minGapRequired);
+    });
+}
+const savedDefaultLocation = localStorage.getItem('defaultLocation');
+if (savedDefaultLocation) {
+    defaultLocation = savedDefaultLocation;
+}
+const savedMaxResults = localStorage.getItem('maxResultOptions');
+if (savedMaxResults !== null) {
+    const parsedMax = parseInt(savedMaxResults, 10);
+    if (!isNaN(parsedMax)) {
+        maxResultOptions = parsedMax;
+    }
+}
+if (defaultLocationSelect) {
+    defaultLocationSelect.value = defaultLocation;
+    defaultLocationSelect.addEventListener('change', () => {
+        defaultLocation = defaultLocationSelect.value;
+        localStorage.setItem('defaultLocation', defaultLocation);
+        locationSelect.value = defaultLocation;
+        updateCalculatorRows();
+    });
+}
+if (maxResultsInput) {
+    maxResultsInput.value = maxResultOptions;
+    maxResultsInput.addEventListener('change', () => {
+        const parsed = parseInt(maxResultsInput.value, 10);
+        maxResultOptions = isNaN(parsed) ? 3 : Math.max(1, parsed);
+        localStorage.setItem('maxResultOptions', maxResultOptions);
     });
 }
 
@@ -75,8 +107,8 @@ filmData.push({ name: 'Film F', options: [55, 70] });
 showTab('calculator');
 // Populate film manager table and then calculator rows (after data is ready)
 populateFilmManagementTable();
-// Initially set to Harderwijk for 5 rows
-locationSelect.value = 'harderwijk';
+// Set initial location based on saved default
+locationSelect.value = defaultLocation;
 updateCalculatorRows();
 
 
@@ -106,6 +138,12 @@ function showTab(tabName) {
     } else if (tabName === "settings") {
         if (minGapInput) {
             minGapInput.value = minGapRequired;
+        }
+        if (defaultLocationSelect) {
+            defaultLocationSelect.value = defaultLocation;
+        }
+        if (maxResultsInput) {
+            maxResultsInput.value = maxResultOptions;
         }
     }
 }
@@ -442,11 +480,11 @@ outputTabsContainer.classList.add('hidden');
 singleOutputContainer.classList.remove('hidden');
 singleOutputContainer.innerHTML = generateResultHtml(solutions[0]);
 } else if (solutions.length > 0) {
-// Display top 3 solutions in tabs
+    // Display top solutions in tabs
 outputTabsContainer.classList.remove('hidden');
 singleOutputContainer.classList.add('hidden');
 
-const maxTabs = Math.min(solutions.length, 3); // Display max 3 tabs
+    const maxTabs = Math.min(solutions.length, maxResultOptions); // Display limited tabs
 
 solutions.slice(0, maxTabs).forEach((solution, index) => {
 // Create tab button
@@ -609,7 +647,7 @@ combo.pop();
 search([], 0);
 
 let bestPerfectSolution = null;
-const fallbackSolutions = []; // For top 3 if no perfect solution is found
+const fallbackSolutions = []; // For fallback options if no perfect solution is found
 
 // 1. First, try to find the absolute best "perfect" solution (all gaps >= minGapRequired)
 const perfectSolutions = allCandidateSolutions.filter(s => s.meetsAllMinGaps);
@@ -624,7 +662,7 @@ return a.maxTime - b.maxTime; // Minimize maxTime if range and minGap are equal
 bestPerfectSolution = perfectSolutions[0];
 }
 
-// 2. If no perfect solution, or if we need fallback options, sort all candidates for top 3
+// 2. If no perfect solution, or if we need fallback options, sort all candidates
 if (!bestPerfectSolution) {
 // Sort all candidate solutions (including those with smaller gaps)
 allCandidateSolutions.sort((a, b) => {
@@ -635,15 +673,15 @@ if (b.minGap !== a.minGap) return b.minGap - a.minGap;
 // Tertiary sort: minimize maxTime
 return a.maxTime - b.maxTime;
 });
-// Take up to top 3 for fallback display
-fallbackSolutions.push(...allCandidateSolutions.slice(0, Math.min(allCandidateSolutions.length, 3)));
+// Take up to the configured number for fallback display
+    fallbackSolutions.push(...allCandidateSolutions.slice(0, Math.min(allCandidateSolutions.length, maxResultOptions)));
 }
 
 // --- Display Results ---
 if (bestPerfectSolution) {
 displayResults([bestPerfectSolution], true); // Found a perfect solution
 } else if (fallbackSolutions.length > 0) {
-displayResults(fallbackSolutions, false); // No perfect solution, display top 3 best efforts
+displayResults(fallbackSolutions, false); // No perfect solution, display best efforts
 } else {
 // No valid combinations found at all (even after busy check)
     singleOutputContainer.innerHTML = '<p class="text-gray-600">Geen combinatie gevonden die voldoet aan alle regels (inclusief "Drukte"-beperkingen).</p>';
