@@ -36,6 +36,8 @@ const importFileInput = document.getElementById('import-file-input');
 const importFilmsButton = document.getElementById('import-films-button');
 const exportFilmsButton = document.getElementById('export-films-button');
 const filmManagementMessage = document.getElementById('film-management-message');
+const refreshFilmsButton = document.getElementById('refresh-films-button');
+const settingsMessage = document.getElementById('settings-message');
 
 // --- Helper ---
 function sortFilmData() {
@@ -182,6 +184,9 @@ calculateBtn.addEventListener('click', calculate);
 addFilmManagerBtn.addEventListener('click', () => addFilmManagementRow());
 importFilmsButton.addEventListener('click', () => importFileInput.click()); // Trigger hidden file input
 exportFilmsButton.addEventListener('click', exportFilms);
+if (refreshFilmsButton) {
+    refreshFilmsButton.addEventListener('click', refreshDefaultFilms);
+}
 
 
 // --- Initialization ---
@@ -271,6 +276,9 @@ function showTab(tabName) {
         }
         if (appVersionFooter) {
             appVersionFooter.textContent = APP_VERSION;
+        }
+        if (settingsMessage) {
+            settingsMessage.textContent = '';
         }
     }
 }
@@ -413,7 +421,35 @@ console.error('File reader error:', reader.error);
 };
 reader.readAsText(file);
 // Clear the input value to allow selecting the same file again if needed
-event.target.value = '';
+    event.target.value = '';
+}
+
+/**
+ * Reloads the default films from data/default_films.json and refreshes tables.
+ */
+function refreshDefaultFilms() {
+    if (settingsMessage) settingsMessage.textContent = '';
+    fetch('data/default_films.json')
+        .then(resp => resp.json())
+        .then(data => {
+            if (Array.isArray(data)) {
+                filmData = data;
+                sortFilmData();
+                populateFilmManagementTable();
+                populateMovieDropdowns();
+                if (settingsMessage) {
+                    settingsMessage.textContent = 'Standaardfilms opnieuw geladen.';
+                }
+            } else {
+                throw new Error('Ongeldig formaat van default_films.json');
+            }
+        })
+        .catch(err => {
+            if (settingsMessage) {
+                settingsMessage.textContent = `Fout bij laden: ${err.message}`;
+            }
+            console.error('Error refreshing films:', err);
+        });
 }
 
 // --- Calculator Tab Functions ---
