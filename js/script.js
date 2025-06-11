@@ -185,41 +185,44 @@ exportFilmsButton.addEventListener('click', exportFilms);
 
 
 // --- Initialization ---
-// Add some default film data with famous movies and varied intermission times
-filmData.push({ name: 'The Godfather', options: [58, 76] });
-filmData.push({ name: 'Titanic', options: [61, 79] });
-filmData.push({ name: 'Star Wars', options: [47, 64, 82] });
-filmData.push({ name: 'Jurassic Park', options: [52, 73] });
-filmData.push({ name: 'The Dark Knight', options: [45, 67, 83] });
-filmData.push({ name: 'Pulp Fiction', options: [56, 71] });
-filmData.push({ name: 'Forrest Gump', options: [59, 77] });
-filmData.push({ name: 'Inception', options: [53, 69, 88] });
-filmData.push({ name: 'The Matrix', options: [48, 66] });
-filmData.push({ name: 'The Lord of the Rings', options: [60, 74, 90] });
+function initializeApp() {
+    sortFilmData();
 
-// Ensure alphabetical order for display
-sortFilmData();
+    // Set initial tab to calculator
+    showTab('calculator');
 
+    // Populate film manager table and then calculator rows (after data is ready)
+    populateFilmManagementTable();
 
-// Set initial tab to calculator
-showTab('calculator');
-// Populate film manager table and then calculator rows (after data is ready)
-populateFilmManagementTable();
-// Set initial location based on saved default
-locationSelect.value = defaultLocation;
-if (locationToggleInput) {
-    locationToggleInput.checked = defaultLocation === 'lelystad';
-    updateLabelHighlight();
+    // Set initial location based on saved default
+    locationSelect.value = defaultLocation;
+    if (locationToggleInput) {
+        locationToggleInput.checked = defaultLocation === 'lelystad';
+        updateLabelHighlight();
+    }
+    updateTheme();
+    updateCalculatorRows();
+    if (appVersionElement) {
+        appVersionElement.textContent = APP_VERSION;
+    }
+    if (appVersionFooter) {
+        appVersionFooter.textContent = APP_VERSION;
+    }
+    loadRandomQuote();
 }
-updateTheme();
-updateCalculatorRows();
-if (appVersionElement) {
-    appVersionElement.textContent = APP_VERSION;
-}
-if (appVersionFooter) {
-    appVersionFooter.textContent = APP_VERSION;
-}
-loadRandomQuote();
+
+// Load default films from JSON and then initialize the app
+fetch('data/default_films.json')
+    .then(resp => resp.json())
+    .then(data => {
+        if (Array.isArray(data)) {
+            filmData = data;
+        }
+    })
+    .catch(err => console.error('Error loading default films:', err))
+    .finally(() => {
+        initializeApp();
+    });
 
 
 // --- Tab Management Functions ---
