@@ -1,130 +1,66 @@
 [
   {
+    "name": "28 Years",
+    "options": [47, 57, 62]
+  },
+  {
     "name": "Ballerina",
-    "options": [
-      59,
-      66
-    ]
-  },
-  {
-    "name": "Buffalo Kids",
-    "options": [
-      41
-    ]
-  },
-  {
-    "name": "Dochters",
-    "options": [
-      38,
-      45,
-      51,
-      56,
-      61
-    ]
+    "options": [59, 66]
   },
   {
     "name": "Dog Man",
-    "options": [
-      43,
-      47,
-      56
-    ]
+    "options": [43, 47, 56]
   },
   {
     "name": "Dragon/Draak",
-    "options": [
-      49,
-      58,
-      62,
-      69
-    ]
+    "options": [49, 58, 62, 69]
+  },
+  {
+    "name": "Elio",
+    "options": [45, 49, 55, 60]
   },
   {
     "name": "Fien & Teun",
-    "options": [
-      30,
-      36
-    ]
+    "options": [30, 36]
   },
   {
     "name": "Final Destination",
-    "options": [
-      51,
-      56,
-      66
-    ]
+    "options": [51, 56, 66]
   },
   {
     "name": "Karate Kid",
-    "options": [
-      41,
-      50,
-      56
-    ]
+    "options": [41, 50, 56]
   },
   {
-    "name": "Lekker md Meiden",
-    "options": [
-      42,
-      54
-    ]
+    "name": "Lekker met Meiden",
+    "options": [42, 54]
   },
   {
     "name": "Lilo & Stitch",
-    "options": [
-      46,
-      53,
-      57,
-      64
-    ]
+    "options": [46, 53, 57, 64]
   },
   {
     "name": "Materialists",
-    "options": [
-      57,
-      63,
-      68
-    ]
+    "options": [57, 63, 68]
   },
   {
     "name": "Minecraft",
-    "options": [
-      43,
-      47,
-      56,
-      60
-    ]
+    "options": [43, 47, 56, 60]
   },
   {
     "name": "Mission Impossible",
-    "options": [
-      84,
-      93,
-      111
-    ]
+    "options": [84, 93, 111]
   },
   {
     "name": "Paddington",
-    "options": [
-      39,
-      46,
-      55,
-      65
-    ]
+    "options": [39, 46, 55, 65]
   },
   {
     "name": "Peppa Pig",
-    "options": [
-      31,
-      35
-    ]
+    "options": [31, 35]
   },
   {
     "name": "Salt Path",
-    "options": [
-      51,
-      58,
-      66
-    ]
+    "options": [51, 58, 66]
   }
 ]
