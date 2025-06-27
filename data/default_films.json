@@ -20,47 +20,43 @@
     "options": [45, 49, 55, 60]
   },
   {
-    "name": "Fien & Teun",
-    "options": [30, 36]
-  },
-  {
-    "name": "Final Destination",
-    "options": [51, 56, 66]
+    "name": "F1",
+    "options": [68, 77, 85]
   },
   {
     "name": "Karate Kid",
     "options": [41, 50, 56]
   },
   {
-    "name": "Lekker met Meiden",
-    "options": [42, 54]
-  },
-  {
     "name": "Lilo & Stitch",
     "options": [46, 53, 57, 64]
+  },
+  {
+    "name": "M3GAN",
+    "options": [50, 56]
   },
   {
     "name": "Materialists",
     "options": [57, 63, 68]
   },
   {
-    "name": "Minecraft",
-    "options": [43, 47, 56, 60]
-  },
-  {
     "name": "Mission Impossible",
     "options": [84, 93, 111]
   },
   {
-    "name": "Paddington",
-    "options": [39, 46, 55, 65]
+    "name": "Olifantje in het Bos",
+    "options": [39]
   },
   {
-    "name": "Peppa Pig",
-    "options": [31, 35]
+    "name": "Rutger en Thomas",
+    "options": [37, 43, 49]
   },
   {
     "name": "Salt Path",
     "options": [51, 58, 66]
+  },
+  {
+    "name": "Shaun het Schaap",
+    "options": [31]
   }
 ]
