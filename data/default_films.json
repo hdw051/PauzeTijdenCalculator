@@ -1,11 +1,7 @@
 [
   {
-    "name": "28 Years",
+    "name": "28 Years Later",
     "options": [47, 57, 62]
-  },
-  {
-    "name": "Ballerina",
-    "options": [59, 66]
   },
   {
     "name": "Dog Man",
@@ -24,8 +20,8 @@
     "options": [68, 77, 85]
   },
   {
-    "name": "Karate Kid",
-    "options": [41, 50, 56]
+    "name": "Jurassic World",
+    "options": [59, 66, 72, 77]
   },
   {
     "name": "Lilo & Stitch",
