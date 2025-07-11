@@ -60,6 +60,10 @@
     "options": [31]
   },
   {
+    "name": "Smurfen",
+    "options": [44,48,51]
+  },
+  {
     "name": "Superman",
     "options": [54, 58, 62, 65, 69]
   },
