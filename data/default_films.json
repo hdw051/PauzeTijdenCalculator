@@ -4,8 +4,8 @@
     "options": [47, 57, 62]
   },
   {
-    "name": "Dog Man",
-    "options": [43, 47, 56]
+    "name": "Big Trip",
+    "options": [40, 46, 52]
   },
   {
     "name": "Dragon/Draak",
@@ -22,6 +22,10 @@
   {
     "name": "Jurassic World",
     "options": [59, 66, 72, 77]
+  },
+  {
+    "name": "Kameleon",
+    "options": [42, 44, 48]
   },
   {
     "name": "Lilo & Stitch",
@@ -54,5 +58,13 @@
   {
     "name": "Shaun het Schaap",
     "options": [31]
+  },
+  {
+    "name": "Superman",
+    "options": [54, 58, 62, 65, 69]
+  },
+  {
+    "name": "Victoria moet dood",
+    "options": [43]
   }
 ]
