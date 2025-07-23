@@ -21,7 +21,7 @@
   },
   {
     "name": "I Know What You Did",
-    "options": [46,61]
+    "options": [46, 61]
   },
   {
     "name": "Jurassic World",
@@ -34,10 +34,6 @@
   {
     "name": "Lilo & Stitch",
     "options": [46, 53, 57, 64]
-  },
-  {
-    "name": "M3GAN",
-    "options": [50, 56]
   },
   {
     "name": "Materialists",
@@ -65,7 +61,7 @@
   },
   {
     "name": "Smurfen",
-    "options": [44,48,51]
+    "options": [44, 48, 51]
   },
   {
     "name": "Superman",
@@ -74,5 +70,9 @@
   {
     "name": "Victoria moet dood",
     "options": [43]
+  },
+  {
+    "name": "Fantastic Four",
+    "options": [51, 54, 56, 60, 66]
   }
 ]
