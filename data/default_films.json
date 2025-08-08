@@ -8,10 +8,6 @@
     "options": [40, 46, 52]
   },
   {
-    "name": "Bride Hard",
-    "options": [53]
-  },
-  {
     "name": "Bring Her Back",
     "options": [51, 55, 59]
   },
@@ -32,16 +28,16 @@
     "options": [51, 54, 56, 60, 66]
   },
   {
+    "name": "Freakier Friday",
+    "options": [54, 61, 67]
+  },
+  {
     "name": "I Know What You Did",
     "options": [46, 61]
   },
   {
     "name": "Jurassic World",
     "options": [59, 66, 72, 77]
-  },
-  {
-    "name": "Kameleon",
-    "options": [42, 44, 48]
   },
   {
     "name": "Lilo & Stitch",
@@ -53,7 +49,7 @@
   },
   {
     "name": "Naked Gun",
-    "options": [35, 44, 49]
+    "options": [44, 49]
   },
   {
     "name": "Olifantje in het Bos",
@@ -64,10 +60,6 @@
     "options": [37, 43, 49]
   },
   {
-    "name": "Salt Path",
-    "options": [51, 58, 66]
-  },
-  {
     "name": "Shaun het Schaap",
     "options": [31]
   },
@@ -76,7 +68,23 @@
     "options": [44, 48, 51]
   },
   {
+    "name": "Super Elfkins",
+    "options": [35, 40, 46]
+  },
+  {
     "name": "Superman",
     "options": [54, 58, 62, 65, 69]
+  },
+  {
+    "name": "Tommy & Fliek",
+    "options": [41, 46, 51]
+  },
+  {
+    "name": "Vinci",
+    "options": [51, 56, 60, 64]
+  },
+  {
+    "name": "Weapons",
+    "options": [53, 57, 67]
   }
 ]
