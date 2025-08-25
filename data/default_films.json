@@ -8,8 +8,8 @@
     "options": [40, 46, 52]
   },
   {
-    "name": "Bring Her Back",
-    "options": [51, 55, 59]
+    "name": "Clown in a Cornfield",
+    "options": [43, 47, 51, 53]
   },
   {
     "name": "Dragon/Draak",
@@ -32,10 +32,6 @@
     "options": [54, 61, 67]
   },
   {
-    "name": "I Know What You Did",
-    "options": [46, 61]
-  },
-  {
     "name": "Jurassic World",
     "options": [59, 66, 72, 77]
   },
@@ -52,8 +48,16 @@
     "options": [44, 49]
   },
   {
+    "name": "Nobody",
+    "options": [41, 48, 55]
+  },
+  {
     "name": "Olifantje in het Bos",
     "options": [39]
+  },
+  {
+    "name": "Over de Grens",
+    "options": [45, 50]
   },
   {
     "name": "Rutger en Thomas",
@@ -72,12 +76,8 @@
     "options": [35, 40, 46]
   },
   {
-    "name": "Superman",
-    "options": [54, 58, 62, 65, 69]
-  },
-  {
-    "name": "Tommy & Fliek",
-    "options": [41, 46, 51]
+    "name": "The Ritual",
+    "options": [52]
   },
   {
     "name": "Vinci",
